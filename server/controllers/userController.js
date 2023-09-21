@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const { generateToken } = require('../helpers/jwtHelper');
 class userController
 {
     static async createUser(req, res, next)
@@ -70,7 +71,9 @@ class userController
                     {
                         if (match)
                         {
+                            const access_token = generateToken({id: user["_id"]})
                             res.status(200).json({
+                                access_token: access_token,
                                 message: "Successfully logged in"
                             })
                         } else
