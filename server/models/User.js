@@ -2,6 +2,21 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
+const profileSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        default: "test"
+    },
+    gender: {
+        type: String,
+        default: "test"
+    },
+    age: {
+        type: Number,
+        default: 1
+    }
+})
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -40,6 +55,7 @@ const userSchema = new mongoose.Schema({
             message: 'Password must be at least 5 characters long'
         },
     },
+    profile: profileSchema
 })
 
 userSchema.pre('save', async function (next) {

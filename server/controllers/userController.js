@@ -9,7 +9,8 @@ class userController
         const newUser = new User({
             username: username,
             email: email,
-            password: password
+            password: password,
+            profile: {}
         })
         newUser.save()
             .then(() =>
