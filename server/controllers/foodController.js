@@ -2,7 +2,10 @@ const User = require('../models/User');
 const mongoose = require('mongoose');
 const OpenAi = require('openai');
 const fs = require('fs');
+const vision = require('@google-cloud/vision');
 
+const credentials = require('../application_default_credentials.json');
+const client = new vision.ImageAnnotatorClient()
 
 class FoodController
 {
@@ -11,13 +14,36 @@ class FoodController
         try
         {
             console.log(req.file)
-            fs.unlink(req.file.path, (err) => {
+            const fileName = req.file.path;
+            const request = {
+                image: { content: fs.readFileSync(fileName) }
+            };
+            const [result] = await client.objectLocalization(request);
+            const objects = result.localizedObjectAnnotations;
+            const ingredients = []
+            objects.forEach(object =>
+            {
+                console.log(`Name: ${object.name}`);
+                if (object.name !== "Food" && object.name !== "Vegetable" && object.name !== "Fruit")
+                {
+                    if (!ingredients.includes(object.name))
+                    {
+                        ingredients.push(object.name);
+                    }
+                }
+                console.log(`Confidence: ${object.score}`);
+                const vertices = object.boundingPoly.normalizedVertices;
+                vertices.forEach(v => console.log(`x: ${v.x}, y:${v.y}`));
+            });
+            fs.unlink(req.file.path, (err) =>
+            {
                 if (err)
                 {
                     throw err;
                 }
             })
             res.status(200).json({
+                ingredients: ingredients,
                 message: "OK"
             })
         } catch (error)
