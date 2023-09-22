@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 const port = 3000
 const user_router = require('./routes/user_route');
 const authentication = require('./middleware/authentication');
+const food = require('./routes/userMeals');
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
@@ -24,6 +26,7 @@ mongoose.connection.once('open', function ()
 
 app.use(user_router);
 app.use(authentication);
+app.use(food);
 app.get('/', (req, res) => res.send('Hello World!'));
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

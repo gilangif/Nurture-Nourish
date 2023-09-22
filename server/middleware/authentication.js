@@ -1,4 +1,4 @@
-const User = require('../models');
+const User = require('../models/User');
 const { verifyToken } = require('../helpers/jwtHelper');
 
 const authentication = async (req, res, next) =>
@@ -25,7 +25,9 @@ const authentication = async (req, res, next) =>
         next();
     } catch (error)
     {
-        next(error)
+        res.status(401).status({
+            message: "Unauthorized"
+        })
     }
 }
 

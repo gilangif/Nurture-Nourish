@@ -8,11 +8,25 @@ class FoodController
 {
     static async uploadIngredients(req, res)
     {
-        console.log(req.file)
-        await fs.unlinkAsync(req.file.path)
-        res.status(200).json({
-            message: "OK"
-        })
+        try
+        {
+            console.log(req.file)
+            fs.unlink(req.file.path, (err) => {
+                if (err)
+                {
+                    throw err;
+                }
+            })
+            res.status(200).json({
+                message: "OK"
+            })
+        } catch (error)
+        {
+            console.log(error)
+            res.status(500).json({
+                message: "Internal Server Error"
+            })
+        }
     }
 }
 
