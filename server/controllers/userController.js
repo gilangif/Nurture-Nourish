@@ -72,7 +72,7 @@ class userController
                     {
                         if (match)
                         {
-                            const access_token = generateToken({id: user["_id"]})
+                            const access_token = generateToken({id: user["_id"], email: user.email, name: user.profile.name})
                             res.status(200).json({
                                 access_token: access_token,
                                 message: "Successfully logged in"

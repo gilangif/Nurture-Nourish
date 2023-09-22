@@ -1,21 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-
-const profileSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        default: "test"
-    },
-    gender: {
-        type: String,
-        default: "test"
-    },
-    age: {
-        type: Number,
-        default: 1
-    }
-})
+const profileSchema = require('./Profile');
 
 const userSchema = new mongoose.Schema({
     username: {

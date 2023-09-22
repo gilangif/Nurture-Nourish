@@ -8,10 +8,12 @@ const profileSchema = new mongoose.Schema({
         default: "test"
     },
     gender: {
-        type: String
+        type: String,
+        default: "test"
     },
     age: {
-        type: Number
+        type: Number,
+        default: "test"
     },
     mealDiary: [mealSchema]
 })
