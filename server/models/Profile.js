@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const mealSchema = require('./Meals');
+const pregnancySchema = require('./Pregnancy');
 
 const profileSchema = new mongoose.Schema({
     name: {
@@ -11,11 +12,11 @@ const profileSchema = new mongoose.Schema({
         type: String,
         default: "test"
     },
-    age: {
-        type: Number,
-        default: "test"
+    birthDate: {
+        type: Date,
+        default: new Date()
     },
-    mealDiary: [mealSchema]
+    pregnancyData: [pregnancySchema]
 })
 
 module.exports = profileSchema;
