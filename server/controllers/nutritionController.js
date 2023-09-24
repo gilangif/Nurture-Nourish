@@ -1,31 +1,40 @@
 const { openAI } = require("../helpers/OpenAI")
 const Nutrition = require("../models/Nutrition")
 
-class NutritionController {
-  static async getNutrition(req, res, next) {
-    try {
+class NutritionController
+{
+  static async getNutrition(req, res, next)
+  {
+    try
+    {
       const data = await Nutrition.find()
       res.status(200).json(data)
-    } catch (error) {
+    } catch (error)
+    {
       console.log(error)
       res.status(500).json({ message: error.message })
     }
   }
 
-  static async getNutritionByProfileId(req, res, next) {
-    try {
+  static async getNutritionByProfileId(req, res, next)
+  {
+    try
+    {
       const { ProfileId } = req.params
       const data = await Nutrition.find({ ProfileId })
 
       res.status(200).json(data)
-    } catch (error) {
+    } catch (error)
+    {
       console.log(error)
       res.status(500).json({ message: error.message })
     }
   }
 
-  static async addNutrition(req, res, next) {
-    try {
+  static async addNutrition(req, res, next)
+  {
+    try
+    {
       const { date, input } = req.body
       const { ProfileId } = req.params
 
@@ -95,7 +104,8 @@ class NutritionController {
       let totalAKG = 0
       let totalNutrition = 0
 
-      for (let x in AKG) {
+      for (let x in AKG)
+      {
         totalAKG += AKG[x].value
         totalNutrition += details[x].value
       }
@@ -110,7 +120,8 @@ class NutritionController {
       })
 
       res.status(200).json(await add.save())
-    } catch (error) {
+    } catch (error)
+    {
       res.status(error.status || 500).json({ message: error.message })
     }
   }
