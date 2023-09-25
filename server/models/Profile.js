@@ -4,11 +4,11 @@ const validator = require('validator');
 const profileSchema = new mongoose.Schema({
     name: {
         type: String,
-        default: "test"
+        default: "RecipeTest"
     },
     gender: {
         type: String,
-        default: "test"
+        default: "RecipeTest"
     },
     birthDate: {
         type: Date,
