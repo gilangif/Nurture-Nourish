@@ -7,14 +7,14 @@ class PregnancyController
         try
         {
             const user = req.user;
-            const { startDate, childrenNumber } = req.body;
-            if (!startDate || !childrenNumber)
-            {
+            const { startDate } = req.body;
+            if (!startDate)
+            {6
                 throw { name: "BadRequest", message: "Invalid pregnancy data" }
             }
             user.profile.pregnancyData.push({
                 startDate: startDate,
-                childrenNumber: childrenNumber,
+                childrenNumber: user.profile.pregnancyData.length || 12,
                 dailyNutrition: []
             });
             await user.save();
