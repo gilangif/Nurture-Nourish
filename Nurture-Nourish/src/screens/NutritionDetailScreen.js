@@ -2,7 +2,6 @@ import { Image, Modal, Pressable, ScrollView, Text, TouchableWithoutFeedback, Vi
 import HeaderComponent from '../components/HeaderComponent'
 import { FontAwesome5, Feather, Entypo, FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
-import NutritionDailyCard from '../components/NutritionDailyCard';
 import { useNavigation } from '@react-navigation/native';
 import NutritionSubDetail from '../components/NutritionSubDetail';
 
