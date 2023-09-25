@@ -16,6 +16,6 @@ const pregnancyDataSchema = new mongoose.Schema({
     }]
 })
 
-const pregnancyData = new mongoose.model('pregnancyData', pregnancyDataSchema);
+const PregnancyData = new mongoose.model('pregnancyData', pregnancyDataSchema);
 
-module.exports = { pregnancyDataSchema, pregnancyData };
+module.exports = PregnancyData;

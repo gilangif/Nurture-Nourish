@@ -1,6 +1,6 @@
-const { pregnancyData } = require('../models/Pregnancy');
+const PregnancyData = require('../models/Pregnancy');
 const User = require('../models/User');
-const { Profile } = require('../models/Profile');
+const Profile = require('../models/Profile');
 
 class PregnancyController 
 {
@@ -15,7 +15,7 @@ class PregnancyController
             {
                 throw { name: "BadRequest", message: "Invalid pregnancy data" }
             }
-            const pregData = new pregnancyData({
+            const pregData = new PregnancyData({
                 startDate: startDate,
                 childrenNumber: userProfile.pregnancyData.length + 1 || 1,
                 dailyNutrition: []
@@ -41,7 +41,7 @@ class PregnancyController
         {
             const user = req.user;
             const userProfile = await Profile.findById(user.profile);
-            const data = await pregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1]);
+            const data = await PregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1]);
             res.status(200).json(data);
         } catch (error)
         {
