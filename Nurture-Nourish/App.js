@@ -1,19 +1,23 @@
-import { NavigationContainer } from "@react-navigation/native"
-import { SafeAreaView } from "react-native-safe-area-context"
-import { StyleSheet } from "react-native"
-
-import MainStack from "./src/navigator/MainStack"
+import { Text, View } from 'react-native';
+import MainStack from './src/navigator/MainStack';
+import { NavigationContainer } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
 
 export default function App() {
-  return (
-    <SafeAreaView style={styles.container}>
-      <NavigationContainer>
-        <MainStack />
-      </NavigationContainer>
-    </SafeAreaView>
-  )
-}
+  const [fontsLoaded] = useFonts({
+    'Poppins-Regular': require('./src/fonts/Poppins-Regular.ttf'),
+    'Poppins-Medium': require('./src/fonts/Poppins-Medium.ttf'),
+    'Poppins-Bold': require('./src/fonts/Poppins-Bold.ttf'),
+    'Poppins-SemiBold': require('./src/fonts/Poppins-SemiBold.ttf'),
+  });
 
-const styles = StyleSheet.create({
-  container: { flex: 1 },
-})
+  if (!fontsLoaded) {
+    return <View style={styles.loadingContainer}><Text>Loading...</Text></View>;
+  }
+
+  return (
+    <NavigationContainer>
+      <MainStack />
+    </NavigationContainer>
+  );
+}
