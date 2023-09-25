@@ -10,6 +10,8 @@ import RegisterScreen from '../screens/RegisterScreen';
 import CreateProfileScreen from '../screens/CreateProfile';
 import { useEffect, useState } from 'react';
 import LayoutScreen from '../screens/LayoutScreen';
+import DashboardScreen from '../screens/DashboardScreen';
+import BottomComponent from '../components/BottomComponent';
 
 export default function MainStack() {
   const Stack = createNativeStackNavigator();
@@ -18,7 +20,7 @@ export default function MainStack() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const loggedIn = false;
+      const loggedIn = true;
       setIsAuthenticated(loggedIn);
     };
 
@@ -55,13 +57,17 @@ export default function MainStack() {
   }
 
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Dashboard" component={Dashboard} />
-      <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
-      <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }} />
-      <Stack.Screen name="Preview" component={Preview} />
-      <Stack.Screen name="Test" component={Test} />
-    </Stack.Navigator>
+    <LayoutScreen>
+      <Stack.Navigator screenOptions={{ animation: "none" }}>
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Dashboard"
+          component={DashboardScreen} />
+      </Stack.Navigator>
+      <BottomComponent />
+    </LayoutScreen>
   )
 }
 
