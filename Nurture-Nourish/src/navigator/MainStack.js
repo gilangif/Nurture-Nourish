@@ -27,12 +27,6 @@ export default function MainStack() {
   const { isAuthenticated } = useSelector((state) => state)
 
   useEffect(() => {
-    // const checkAuth = async () => {
-    //   const loggedIn = false
-    //   setIsAuthenticated(loggedIn)
-    // }
-
-    // checkAuth()
     console.log(isAuthenticated)
   }, [isAuthenticated])
 
@@ -66,6 +60,10 @@ export default function MainStack() {
         <Stack.Screen options={{ headerShown: false }} name="RecipeDetail" component={RecipeDetailScreen} />
         <Stack.Screen options={{ headerShown: false }} name="ProfileDetail" component={ProfileScreen} />
         <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
+        <Stack.Screen options={{ headerShown: false }} name="Welcome" component={WelcomeScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Register" component={RegisterScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="CreateProfile" component={CreateProfileScreen} />
       </Stack.Navigator>
       {/* <BottomComponent /> */}
     </LayoutScreen>

@@ -1,1 +1,1 @@
-export const isAuthenticatedTypes = "loggedInTypes"
+export const isAuthenticatedTypes = "isAuthenticatedTypes"
