@@ -8,16 +8,14 @@ class RecipeController
         try
         {
             const user = req.user;
-            const { title, description, ingredients, instructions, nutrition } = req.body;
-            const recipe = new Recipe({
+            const { title, description, ingredients, instructions, nutrition } = req.body
+            user.profile.favoriteRecipes.push({
                 title,
                 description,
                 ingredients,
                 instructions,
                 nutrition
-            })
-            await recipe.save();
-            user.profile.favoriteRecipes.push(recipe._id);
+            });
             await user.save();
             res.status(201).json({
                 message: "Recipe added successfully"
@@ -35,11 +33,9 @@ class RecipeController
         try
         {
             const user = req.user;
-            const newuser1 = await User.findById('65111f0e1c9b2d4d93ec75a3').populate('favoriteRecipes').exec();
-            res.status(200).json({
-                message: "OK",
-                data: newuser1
-            })
+            const recipes = req.user.profile.favoriteRecipes;
+            // const newuser1 = await User.findById('65111f0e1c9b2d4d93ec75a3').populate('favoriteRecipes').exec();
+            res.status(200).json(recipes)
         } catch (error)
         {
             console.log(error)

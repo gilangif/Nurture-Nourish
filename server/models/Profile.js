@@ -17,10 +17,7 @@ const profileSchema = new mongoose.Schema({
         default: new Date()
     },
     pregnancyData: [pregnancyDataSchema],
-    favoriteRecipes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Recipe'
-    }]
+    favoriteRecipes: [recipeSchema]
 })
 
 const profile = new mongoose.model('profile', profileSchema);
