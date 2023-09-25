@@ -1,5 +1,7 @@
 const { pregnancyData } = require('../models/Pregnancy');
 const User = require('../models/User');
+const { Profile } = require('../models/Profile');
+
 class PregnancyController 
 {
     static async addPregnancy(req, res, next)
@@ -7,6 +9,7 @@ class PregnancyController
         try
         {
             const user = req.user;
+            const userProfile = await Profile.findById(user.profile);
             const { startDate } = req.body;
             if (!startDate)
             {
@@ -14,11 +17,12 @@ class PregnancyController
             }
             const pregData = new pregnancyData({
                 startDate: startDate,
-                childrenNumber: user.profile.pregnancyData.length + 1 || 1,
+                childrenNumber: userProfile.pregnancyData.length + 1 || 1,
                 dailyNutrition: []
             })
-            user.profile.pregnancyData.push(pregData);
-            await user.save();
+            await pregData.save()
+            userProfile.pregnancyData.push(pregData._id);
+            await userProfile.save();
             res.status(200).json({
                 message: "Pregnancy data added successfully"
             });
@@ -36,12 +40,12 @@ class PregnancyController
         try
         {
             const user = req.user;
-            const pregnancyData = user.profile.pregnancyData[user.profile.pregnancyData.length - 1];
-            res.status(200).json({
-                pregnancyData: pregnancyData
-            })
+            const userProfile = await Profile.findById(user.profile);
+            const data = await pregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1]);
+            res.status(200).json(data);
         } catch (error)
         {
+            console.log(error)
             res.status(500).json({
                 message: "Internal Server Error"
             })

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const { dailyNutritionSchema } = require('./DailyNutrition');
 
 const pregnancyDataSchema = new mongoose.Schema({
     startDate: {
@@ -11,7 +10,10 @@ const pregnancyDataSchema = new mongoose.Schema({
         type: Number,
         default: 1
     },
-    dailyNutrition: [dailyNutritionSchema]
+    dailyNutrition: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'DailyNutrition'
+    }]
 })
 
 const pregnancyData = new mongoose.model('pregnancyData', pregnancyDataSchema);

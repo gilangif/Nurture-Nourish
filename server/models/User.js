@@ -41,7 +41,10 @@ const userSchema = new mongoose.Schema({
             message: 'Password must be at least 5 characters long'
         },
     },
-    profile: profileSchema
+    profile: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Profile'
+    }
 })
 
 userSchema.pre('save', async function (next)

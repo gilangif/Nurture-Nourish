@@ -1,4 +1,5 @@
 const User = require("../models/User")
+const { Profile } = require('../models/Profile');
 const bcrypt = require("bcryptjs")
 const { generateToken } = require("../helpers/jwtHelper")
 
@@ -7,11 +8,19 @@ class UserController
   static async createUser(req, res, next)
   {
     const { username, email, password } = req.body
+    const newProfile = new Profile({
+      name: "test",
+      gender: "test",
+      birthDate: new Date(),
+      pregnancyData: [],
+      favoriteRecipes: []
+    })
+    let savedProfile = await newProfile.save()
     const newUser = new User({
       username: username,
       email: email,
       password: password,
-      profile: {},
+      profile: savedProfile._id,
     })
     newUser
       .save()

@@ -1,6 +1,5 @@
 const { openAI } = require("../helpers/OpenAI")
-const Nutrition = require("../models/Nutrition")
-const dailyNutrition = require("../models/DailyNutrition")
+const DailyNutrition = require("../models/DailyNutrition")
 
 class NutritionController
 {

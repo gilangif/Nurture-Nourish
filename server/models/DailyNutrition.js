@@ -8,6 +8,6 @@ const dailyNutritionSchema = new mongoose.Schema({
     details: {}
 });
 
-const dailyNutrition = new mongoose.model("dailyNutrition", dailyNutritionSchema)
+const DailyNutrition = new mongoose.model("dailyNutrition", dailyNutritionSchema)
 
-module.exports = { dailyNutrition, dailyNutritionSchema };
+module.exports = DailyNutrition;

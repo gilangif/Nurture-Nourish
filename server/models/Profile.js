@@ -16,10 +16,16 @@ const profileSchema = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    pregnancyData: [pregnancyDataSchema],
-    favoriteRecipes: [recipeSchema]
+    pregnancyData: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Pregnancy'
+    }],
+    favoriteRecipes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Pregnancy'
+    }]
 })
 
-const profile = new mongoose.model('profile', profileSchema);
+const Profile = new mongoose.model('profile', profileSchema);
 
-module.exports = { profile, profileSchema };
+module.exports = { Profile, profileSchema };
