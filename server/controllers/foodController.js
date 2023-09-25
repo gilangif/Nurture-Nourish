@@ -57,10 +57,10 @@ class FoodController
     }
     static async getFoods(req, res)
     {
-        const { category } = req.query;
+        const { key } = req.query;
         try
         {
-            const foods = await Food.find({})
+            const foods = await Food.find({key})
             res.status(200).json(foods)
         } catch (error)
         {
