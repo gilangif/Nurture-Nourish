@@ -1,12 +1,13 @@
 const User = require("../models/User")
-const { Profile } = require("../models/Profile")
+const Profile = require("../models/Profile")
 
 class ProfileController {
   static async getProfile(req, res, next) {
     try {
       const user = req.user
+      const userProfile = await Profile.findById(user._id)
       console.log(user)
-      res.status(200).json(user.profile)
+      res.status(200).json(userProfile)
     } catch (err) {
       console.log(err)
       res.status(500).json({
@@ -19,14 +20,15 @@ class ProfileController {
     try {
       const { name, gender, date } = req.body
       let user = req.user
+      const userProfile = await Profile.findById(user._id)
       if (name) {
-        user.profile.name = name
+        userProfile.name = name
       }
       if (gender) {
-        user.profile.gender = gender
+        userProfile.gender = gender
       }
       if (date) {
-        user.profile.birthDate = date
+        userProfile.birthDate = date
       }
       user = await user.save()
       res.status(200).json(user)
