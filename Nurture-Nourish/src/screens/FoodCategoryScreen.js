@@ -1,4 +1,4 @@
-import { Image, ScrollView, Text, View } from 'react-native'
+import { Image, Pressable, ScrollView, Text, View } from 'react-native'
 import HeaderComponent from '../components/HeaderComponent'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -20,7 +20,12 @@ export default function FoodCategoryScreen() {
                             Makanan & Nutrisi
                         </Text>
                     </>}
-                rightContent={<><FontAwesome5 name="user-circle" size={28} color="black" /></>}
+                rightContent={
+                    <>
+                        <Pressable onPress={() => { navigation.navigate('ProfileDetail'); console.log('clicked') }}>
+                            <FontAwesome5 name="user-circle" size={28} color="black" />
+                        </Pressable>
+                    </>}
             />
             <ScrollView style={{ paddingHorizontal: 25 }}>
                 <View style={{ marginTop: 10, flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", gap: 14 }}>

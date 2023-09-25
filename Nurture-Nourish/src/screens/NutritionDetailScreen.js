@@ -17,7 +17,11 @@ export default function NutritionDetailScreen() {
                         <Feather name="arrow-left-circle" size={30} color="black" />
                     </Pressable>}
                 centerContent={<Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 20 }}>Detail Nutrisi</Text>}
-                rightContent={<FontAwesome5 name="user-circle" size={28} color="black" />}
+                rightContent={
+                    <Pressable onPress={() => { navigation.navigate('ProfileDetail'); console.log('clicked') }}>
+                        <FontAwesome5 name="user-circle" size={28} color="black" />
+                    </Pressable>
+                }
             />
             <ScrollView style={{ paddingHorizontal: 25 }}>
                 <View style={{ marginTop: 10 }}>
