@@ -5,7 +5,10 @@ const dailyNutritionSchema = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    details: {}
+    details: {},
+    totalAkg: String
 });
 
-module.exports = dailyNutritionSchema;
+const DailyNutrition = mongoose.model("DailyNutrition", dailyNutritionSchema)
+
+module.exports = {dailyNutritionSchema, DailyNutrition};

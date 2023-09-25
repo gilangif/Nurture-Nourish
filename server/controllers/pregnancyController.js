@@ -9,7 +9,7 @@ class PregnancyController
             const user = req.user;
             const { startDate } = req.body;
             if (!startDate)
-            {6
+            {
                 throw { name: "BadRequest", message: "Invalid pregnancy data" }
             }
             user.profile.pregnancyData.push({
