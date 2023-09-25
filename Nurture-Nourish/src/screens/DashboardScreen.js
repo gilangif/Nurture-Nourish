@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import RecipeCard from '../components/RecipeCard';
 import ArticleCard from '../components/ArticleCard';
+import BottomComponent from '../components/BottomComponent';
 
 export default function DashboardScreen() {
     const [modalVisible, setModalVisible] = useState(false);
@@ -151,6 +152,7 @@ export default function DashboardScreen() {
                 {/* Margin Bottom */}
                 <View style={{ height: 30 }} />
             </ScrollView>
+            <BottomComponent />
         </View>
     )
 }

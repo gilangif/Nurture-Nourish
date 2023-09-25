@@ -4,6 +4,7 @@ import { FontAwesome5, Feather, Entypo, FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import NutritionSubDetail from '../components/NutritionSubDetail';
+import BottomComponent from '../components/BottomComponent';
 
 export default function NutritionDetailScreen() {
     const navigation = useNavigation()
@@ -55,6 +56,7 @@ export default function NutritionDetailScreen() {
                 {/* Margin Bottom */}
                 <View style={{ height: 30 }} />
             </ScrollView >
+            <BottomComponent />
         </View >
     )
 }

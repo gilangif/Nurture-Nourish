@@ -3,6 +3,7 @@ import HeaderComponent from '../components/HeaderComponent'
 import { FontAwesome5, MaterialIcons, Entypo, FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
 import NutritionDailyCard from '../components/NutritionDailyCard';
+import BottomComponent from '../components/BottomComponent';
 
 export default function NutritionScreen() {
     const [modalVisible, setModalVisible] = useState(false);
@@ -99,6 +100,7 @@ export default function NutritionScreen() {
                     </View>
                 </TouchableWithoutFeedback>
             </Modal>
+            <BottomComponent />
         </View >
     )
 }

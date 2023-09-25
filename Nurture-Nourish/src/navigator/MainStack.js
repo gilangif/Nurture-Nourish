@@ -89,8 +89,9 @@ export default function MainStack() {
           name="Saved"
           component={SavedRecipeScreen}
         />
+        <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
       </Stack.Navigator>
-      <BottomComponent />
+      {/* <BottomComponent /> */}
     </LayoutScreen>
   )
 }

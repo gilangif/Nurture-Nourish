@@ -43,9 +43,9 @@ export default function BottomComponent() {
                         <Ionicons name="ios-bookmarks-outline" size={29} color="black" />
                         <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 12, marginBottom: -8 }}>Recipes</Text>
                     </Pressable>
-                    <Pressable onPress={() => navigation.navigate('Ask')} style={{ alignItems: "center", width: 60 }}>
+                    <Pressable onPress={() => navigation.navigate('Chat')} style={{ alignItems: "center", width: 60 }}>
                         <AntDesign name="message1" size={30} color="black" />
-                        <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 12, marginBottom: -8 }}>Ask</Text>
+                        <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 12, marginBottom: -8 }}>Chat</Text>
                     </Pressable>
                 </View>
             </View>

@@ -3,6 +3,7 @@ import HeaderComponent from '../components/HeaderComponent'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import FoodCategoryCard from '../components/FoodCategoryCard';
+import BottomComponent from '../components/BottomComponent';
 
 export default function FoodCategoryScreen() {
     const navigation = useNavigation()
@@ -40,6 +41,7 @@ export default function FoodCategoryScreen() {
                 {/* Margin Bottom */}
                 <View style={{ height: 20 }} />
             </ScrollView >
+            <BottomComponent />
         </View >
     )
 }
