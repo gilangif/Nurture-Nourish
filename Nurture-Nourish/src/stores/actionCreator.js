@@ -19,3 +19,16 @@ export function login(username, password) {
     }
   }
 }
+
+export function register(username, email, password, name, gender, date) {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post("http://192.168.8.35:3000/users/register", { username, email, password, name, gender, date  })
+      return data
+    } catch (err) {
+      console.log(err, "📌📌📌📌")
+      alert(err)
+      throw err
+    }
+  }
+}

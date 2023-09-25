@@ -59,15 +59,16 @@ class UserController
   {
     try
     {
-      const { username, email, password } = req.body
+      const { username, password } = req.body
       let user = null
 
-      if (email)
-      {
-        user = await User.findOne({ email: email })
-      } else if (username)
+      if (username)
       {
         user = await User.findOne({ username: username })
+        if (!user)
+        {
+          user = await User.findOne({ email: username })
+        }
       }
       if (!user)
       {
