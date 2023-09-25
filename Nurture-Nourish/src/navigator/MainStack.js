@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import LayoutScreen from '../screens/LayoutScreen';
 import DashboardScreen from '../screens/DashboardScreen';
 import BottomComponent from '../components/BottomComponent';
+import FoodCategoryScreen from '../screens/FoodCategoryScreen';
 
 export default function MainStack() {
   const Stack = createNativeStackNavigator();
@@ -65,6 +66,11 @@ export default function MainStack() {
           }}
           name="Dashboard"
           component={DashboardScreen} />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="FoodCategory"
+          component={FoodCategoryScreen}
+        />
       </Stack.Navigator>
       <BottomComponent />
     </LayoutScreen>
