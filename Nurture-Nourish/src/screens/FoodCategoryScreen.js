@@ -38,7 +38,7 @@ export default function FoodCategoryScreen() {
                 </View>
 
                 {/* Margin Bottom */}
-                <View style={{ height: 35 }} />
+                <View style={{ height: 20 }} />
             </ScrollView >
         </View >
     )
