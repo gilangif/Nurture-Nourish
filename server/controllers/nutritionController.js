@@ -199,8 +199,11 @@ class NutritionController {
   static async deleteNutrition(req, res, next) {
     try {
       const { id } = req.params
-      const data = await DailyNutrition.findByIdAndDelete(id)
-
+      const pregData = await PregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1])
+      const index = pregData.dailyNutrition.indexOf(id)
+      pregData.dailyNutrition.splice(index, 1)
+      await DailyNutrition.findByIdAndDelete(id)
+      await pregData.save()
       res.status(200).json({
         message: "Nutrition deleted successfully",
       })
