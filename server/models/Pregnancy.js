@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const dailyNutritionSchema = require('./DailyNutrition');
+const { dailyNutritionSchema } = require('./DailyNutrition');
 
 const pregnancyDataSchema = new mongoose.Schema({
     startDate: {
@@ -11,7 +11,9 @@ const pregnancyDataSchema = new mongoose.Schema({
         type: Number,
         default: 1
     },
-    dailyNutrition: [dailyNutritionSchema],
+    dailyNutrition: [dailyNutritionSchema]
 })
 
-module.exports = pregnancyDataSchema;
+const pregnancyData = new mongoose.model('pregnancyData', pregnancyDataSchema);
+
+module.exports = { pregnancyDataSchema, pregnancyData };

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const OpenAi = require('openai');
 const fs = require('fs');
 const vision = require('@google-cloud/vision');
+const Food = require('../models/Food');
 
 const credentials = require('../application_default_credentials.json');
 const client = new vision.ImageAnnotatorClient()
@@ -46,6 +47,21 @@ class FoodController
                 ingredients: ingredients,
                 message: "OK"
             })
+        } catch (error)
+        {
+            console.log(error)
+            res.status(500).json({
+                message: "Internal Server Error"
+            })
+        }
+    }
+    static async getFoods(req, res)
+    {
+        const { category } = req.query;
+        try
+        {
+            const foods = await Food.find({})
+            res.status(200).json(foods)
         } catch (error)
         {
             console.log(error)

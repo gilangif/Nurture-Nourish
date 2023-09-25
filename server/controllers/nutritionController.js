@@ -1,5 +1,6 @@
 const { openAI } = require("../helpers/OpenAI")
 const Nutrition = require("../models/Nutrition")
+const dailyNutrition = require("../models/DailyNutrition")
 
 class NutritionController
 {
@@ -123,6 +124,22 @@ class NutritionController
     } catch (error)
     {
       res.status(error.status || 500).json({ message: error.message })
+    }
+  }
+  static async deleteNutrition(req, res, next)
+  {
+    try
+    {
+      const { id } = req.params
+      const data = await Nutrition.findByIdAndDelete(id)
+
+      res.status(200).json({
+        message: "Nutrition deleted successfully"
+      })
+    } catch (error)
+    {
+      console.log(error)
+      res.status(500).json({ message: error.message })
     }
   }
 }

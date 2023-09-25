@@ -20,7 +20,7 @@ mongoose.connection
     console.log("Error", err)
   })
 
-app.get("/", (req, res) => res.send("Hello World!"))
+app.get("/", (req, res) => res.send("server is running"))
 app.use(router)
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

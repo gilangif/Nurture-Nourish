@@ -1,4 +1,4 @@
-const Pregnancy = require('../models/Pregnancy');
+const { pregnancyData } = require('../models/Pregnancy');
 const User = require('../models/User');
 class PregnancyController 
 {
@@ -9,14 +9,15 @@ class PregnancyController
             const user = req.user;
             const { startDate } = req.body;
             if (!startDate)
-            {6
+            {
                 throw { name: "BadRequest", message: "Invalid pregnancy data" }
             }
-            user.profile.pregnancyData.push({
+            const pregData = new pregnancyData({
                 startDate: startDate,
-                childrenNumber: user.profile.pregnancyData.length || 12,
+                childrenNumber: user.profile.pregnancyData.length + 1 || 1,
                 dailyNutrition: []
-            });
+            })
+            user.profile.pregnancyData.push(pregData);
             await user.save();
             res.status(200).json({
                 message: "Pregnancy data added successfully"
@@ -35,7 +36,7 @@ class PregnancyController
         try
         {
             const user = req.user;
-            const pregnancyData = user.profile.pregnancyData;
+            const pregnancyData = user.profile.pregnancyData[user.profile.pregnancyData.length - 1];
             res.status(200).json({
                 pregnancyData: pregnancyData
             })

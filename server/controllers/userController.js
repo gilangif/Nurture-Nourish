@@ -17,6 +17,7 @@ class UserController
       .save()
       .then(() =>
       {
+        console.log(newUser)
         console.log("User saved successfully")
         res.status(201).json({
           message: "User created successfully",
@@ -59,8 +60,6 @@ class UserController
       {
         user = await User.findOne({ username: username })
       }
-
-      console.log(user)
       if (!user)
       {
         throw new Error("Invalid credentials, please try again")
