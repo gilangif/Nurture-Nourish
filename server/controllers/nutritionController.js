@@ -199,7 +199,7 @@ class NutritionController {
   static async deleteNutrition(req, res, next) {
     try {
       const { id } = req.params
-      const data = await Nutrition.findByIdAndDelete(id)
+      const data = await DailyNutrition.findByIdAndDelete(id)
 
       res.status(200).json({
         message: "Nutrition deleted successfully",

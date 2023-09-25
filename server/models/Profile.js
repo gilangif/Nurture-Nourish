@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const { pregnancyDataSchema } = require('./Pregnancy');
-const { recipeSchema } = require('./Recipe');
 
 const profileSchema = new mongoose.Schema({
     name: {
@@ -22,7 +20,7 @@ const profileSchema = new mongoose.Schema({
     }],
     favoriteRecipes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Pregnancy'
+        ref: 'Recipe'
     }]
 })
 
