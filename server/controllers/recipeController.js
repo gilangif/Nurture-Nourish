@@ -1,6 +1,7 @@
 const Recipe = require('../models/Recipe');
 const User = require('../models/User');
 const Profile = require('../models/Profile');
+const { openAI } = rqr('../helpers/openAI');
 class RecipeController
 {
     static async addRecipe(req, res)
@@ -71,6 +72,10 @@ class RecipeController
                 message: "Internal Server Error"
             })
         }
+    }
+    static async getRecommendationRecipe(req, res)
+    {
+
     }
 }
 
