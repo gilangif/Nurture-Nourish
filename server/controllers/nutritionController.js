@@ -3,46 +3,37 @@ const DailyNutrition = require("../models/DailyNutrition")
 const Profile = require("../models/Profile")
 const PregnancyData = require("../models/Pregnancy")
 
-
-class NutritionController
-{
-  static async getNutrition(req, res, next)
-  {
-    try
-    {
+class NutritionController {
+  static async getNutrition(req, res, next) {
+    try {
       const data = await Nutrition.find()
       res.status(200).json(data)
-    } catch (error)
-    {
+    } catch (error) {
       console.log(error)
       res.status(500).json({ message: error.message })
     }
   }
 
-  static async getNutritionByProfileId(req, res, next)
-  {
-    try
-    {
+  static async getNutritionByProfileId(req, res, next) {
+    try {
       const { ProfileId } = req.params
       const data = await Nutrition.find({ ProfileId })
 
       res.status(200).json(data)
-    } catch (error)
-    {
+    } catch (error) {
       console.log(error)
       res.status(500).json({ message: error.message })
     }
   }
 
-  static async addNutrition(req, res, next)
-  {
+  static async addNutrition(req, res, next) {
     // try
     // {
-    //   const { date, input } = req.body
     //   const { ProfileId } = req.params
 
     //   if (!date || input || input.length === 0) throw { message: "Invalid data format", status: 400 }
 
+    //   const { date, input } = req.body
     //   const AKG = {
     //     Energi_kkal: { value: 1900 },
     //     Protein_g: { value: 60 },
@@ -78,8 +69,8 @@ class NutritionController
     //   // }
 
     //   const inputToStr = input.map((x) => x.name + " " + x.weight + "gr").join(", ")
-    //   const query = `give information about ${inputToStr} bayam for women trimester 1 with output only for this json format, dont set gram unit on result 
-    //   { 
+    //   const query = `give information about ${inputToStr} bayam for women trimester 1 with output only for this json format, dont set gram unit on result
+    //   {
     //     Energi_kkal: { value : number, information : string},
     //     Protein_g: { value : number, information : string },
     //     Lemak_Total: { value : number, information : string},
@@ -127,45 +118,93 @@ class NutritionController
     // {
     //   res.status(error.status || 500).json({ message: error.message })
     // }
-    try
-    {
-      const user = req.user;
-      const userProfile = await Profile.findById(user.profile);
-      console.log(userProfile)
-      const pregData = await PregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1]);
+    try {
+      const { date, input } = req.body
+      const user = req.user
+      const userProfile = await Profile.findById(user.profile)
+
+      if (!date || !input || input.length === 0) throw { message: "Invalid data format", status: 400 }
+
+      const AKG = {
+        Energi_kkal: { value: 1900 },
+        Protein_g: { value: 60 },
+        Lemak_Total: { value: 70 },
+        Omega_3: { value: 0.6 },
+        Omega_6: { value: 7 },
+        Karbohidrat_g: { value: 250 },
+        Serat_g: { value: 25 },
+        Air_ml: { value: 2700 },
+        Vitamin_A_re: { value: 800 },
+        Vitamin_C_mcg: { value: 85 },
+        Folat: { value: 600 },
+        Kolin: { value: 450 },
+        Vitamin_B5: { value: 6 },
+        Vitamin_B3: { value: 18 },
+        Vitamin_B6: { value: 2.6 },
+        Vitamin_B1: { value: 1.4 },
+      }
+
+      const inputToStr = input.map((x) => x.name + " " + x.weight + "gr").join(", ")
+      const query = `give information about ${inputToStr} bayam for women trimester 1 with output only for this json format, dont set gram unit on result
+      {
+        Energi_kkal: { value : number, information : string},
+        Protein_g: { value : number, information : string },
+        Lemak_Total: { value : number, information : string},
+        Omega_3: { value : number, information : string },
+        Omega_6: { value : number, information : string},
+        Karbohidrat_g": { value : number, information : string },
+        Serat_g: { value : number, information : string },
+        Air_ml: { value : number, information : string },
+        Vitamin_A_re: { value : number, information : string },
+        Vitamin_C_mcg: { value : number, information : string },
+        Folat: { value : number, information : string },
+        Kolin: { value : number, information : string },
+        Vitamin_B5: { value : number, information : string },
+        Vitamin_B3: { value : number, information : string },
+        Vitamin_B6: { value : number, information : string },
+        Vitamin_B1: { value : number, information : string },
+        conclusion : string
+      }`
+
+      const openai = await openAI(query)
+      const details = JSON.parse(openai[0]?.message?.content)
+
+      for (let x in details) {
+        console.log(x, details[x]?.value, AKG[x]?.value)
+        if (x !== "conclusion") {
+          details[x].percentage = Math.ceil((details[x]?.value / AKG[x]?.value) * 100)
+        }
+      }
+
+      const pregData = await PregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1])
 
       const nutrition = new DailyNutrition({
         date: new Date(),
-        details: {
-          test: 1
-        }
-      })
-      await nutrition.save();
-      pregData.dailyNutrition.push(nutrition._id);
-      await pregData.save();
-      res.status(201).json({
-        message: "OK"
+        details,
       })
 
-    } catch (error)
-    {
+      await nutrition.save()
+
+      pregData.dailyNutrition.push(nutrition._id)
+
+      await pregData.save()
+
+      res.status(201).json({ message: "OK", details })
+    } catch (error) {
       res.status(500).json({
-        message: error.message
+        message: error.message,
       })
     }
   }
-  static async deleteNutrition(req, res, next)
-  {
-    try
-    {
+  static async deleteNutrition(req, res, next) {
+    try {
       const { id } = req.params
       const data = await Nutrition.findByIdAndDelete(id)
 
       res.status(200).json({
-        message: "Nutrition deleted successfully"
+        message: "Nutrition deleted successfully",
       })
-    } catch (error)
-    {
+    } catch (error) {
       console.log(error)
       res.status(500).json({ message: error.message })
     }
