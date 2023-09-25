@@ -13,6 +13,7 @@ import LayoutScreen from '../screens/LayoutScreen';
 import DashboardScreen from '../screens/DashboardScreen';
 import BottomComponent from '../components/BottomComponent';
 import FoodCategoryScreen from '../screens/FoodCategoryScreen';
+import NutritionScreen from '../screens/NutritionScreen';
 
 export default function MainStack() {
   const Stack = createNativeStackNavigator();
@@ -70,6 +71,11 @@ export default function MainStack() {
           options={{ headerShown: false }}
           name="FoodCategory"
           component={FoodCategoryScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="NutritionList"
+          component={NutritionScreen}
         />
       </Stack.Navigator>
       <BottomComponent />
