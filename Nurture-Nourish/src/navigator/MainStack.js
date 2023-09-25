@@ -8,7 +8,8 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import CreateProfileScreen from '../screens/CreateProfile';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import LayoutScreen from '../screens/LayoutScreen';
 
 export default function MainStack() {
   const Stack = createNativeStackNavigator();
@@ -17,7 +18,7 @@ export default function MainStack() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const loggedIn = true;
+      const loggedIn = false;
       setIsAuthenticated(loggedIn);
     };
 
@@ -27,7 +28,7 @@ export default function MainStack() {
   if (!isAuthenticated) {
     return (
       <LayoutScreen>
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ animation: "none" }}>
           <Stack.Screen
             options={{ headerShown: false }}
             name="Welcome"

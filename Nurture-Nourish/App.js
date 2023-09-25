@@ -12,7 +12,13 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return <View style={styles.loadingContainer}><Text>Loading...</Text></View>;
+    return <View style={{
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}>
+      <Text>Loading...</Text>
+    </View>;
   }
 
   return (
