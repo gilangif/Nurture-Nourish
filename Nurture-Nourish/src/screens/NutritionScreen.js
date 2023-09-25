@@ -4,9 +4,11 @@ import { FontAwesome5, MaterialIcons, Entypo, FontAwesome } from '@expo/vector-i
 import { useState } from 'react';
 import NutritionDailyCard from '../components/NutritionDailyCard';
 import BottomComponent from '../components/BottomComponent';
+import { useNavigation } from '@react-navigation/native';
 
 export default function NutritionScreen() {
     const [modalVisible, setModalVisible] = useState(false);
+    const navigation = useNavigation()
     return (
         <View style={{ backgroundColor: "white", flex: 1 }}>
             <HeaderComponent
@@ -25,8 +27,9 @@ export default function NutritionScreen() {
                         <Pressable onPress={() => setModalVisible(true)}>
                             <MaterialIcons name="add-circle-outline" size={32} color="black" />
                         </Pressable>
-
-                        <FontAwesome5 name="user-circle" size={28} color="black" />
+                        <Pressable onPress={() => { navigation.navigate('ProfileDetail'); console.log('clicked') }}>
+                            <FontAwesome5 name="user-circle" size={28} color="black" />
+                        </Pressable>
                     </>}
             />
             <ScrollView style={{ paddingHorizontal: 25 }}>

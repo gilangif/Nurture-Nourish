@@ -26,7 +26,9 @@ export default function DashboardScreen() {
 
                 rightContent={
                     <>
-                        <FontAwesome5 name="user-circle" size={28} color="black" />
+                        <Pressable onPress={() => { navigation.navigate('ProfileDetail'); console.log('clicked') }}>
+                            <FontAwesome5 name="user-circle" size={28} color="black" />
+                        </Pressable>
                     </>}
             />
             <Modal

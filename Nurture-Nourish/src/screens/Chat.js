@@ -37,7 +37,11 @@ export default function Chat() {
             <Feather name="arrow-left-circle" size={30} color="black" />
           </Pressable>}
         centerContent={<Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 20 }}>Chat Counselor</Text>}
-        rightContent={<FontAwesome5 name="user-circle" size={28} color="black" />}
+        rightContent={
+          <Pressable onPress={() => { navigation.navigate('ProfileDetail'); console.log('clicked') }}>
+            <FontAwesome5 name="user-circle" size={28} color="black" />
+          </Pressable>
+        }
       />
       <TalkRn.Session appId="t0qA0gWk" me={me}>
         <TalkRn.Chatbox conversationBuilder={conversationBuilder} />

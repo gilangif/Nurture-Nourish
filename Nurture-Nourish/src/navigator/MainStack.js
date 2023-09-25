@@ -17,6 +17,7 @@ import NutritionScreen from '../screens/NutritionScreen';
 import NutritionDetailScreen from '../screens/NutritionDetailScreen';
 import SavedRecipeScreen from '../screens/SavedRecipeScreen';
 import RecipeDetailScreen from '../screens/RecipeDetailScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 export default function MainStack() {
   const Stack = createNativeStackNavigator();
@@ -94,6 +95,11 @@ export default function MainStack() {
           options={{ headerShown: false }}
           name="RecipeDetail"
           component={RecipeDetailScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="ProfileDetail"
+          component={ProfileScreen}
         />
         <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
       </Stack.Navigator>
