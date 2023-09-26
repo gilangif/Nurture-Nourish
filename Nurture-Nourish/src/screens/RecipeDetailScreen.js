@@ -2,6 +2,7 @@ import { Image, Modal, Pressable, ScrollView, Text, TouchableWithoutFeedback, Vi
 import HeaderComponent from '../components/HeaderComponent'
 import { FontAwesome5, Feather, Entypo, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import BottomComponent from '../components/BottomComponent';
 
 export default function RecipeDetailScreen() {
     const navigation = useNavigation()
@@ -91,6 +92,7 @@ export default function RecipeDetailScreen() {
                 {/* Margin Bottom */}
                 <View style={{ height: 30 }} />
             </ScrollView >
+            <BottomComponent />
         </View >
     )
 }
