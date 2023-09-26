@@ -28,7 +28,7 @@ export default function FoodCategoryScreen() {
                     </>}
             />
             <ScrollView style={{ paddingHorizontal: 25 }}>
-                <View style={{ marginTop: 10, flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", gap: 14 }}>
+                <View style={{ marginTop: 10, flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", gap: 10 }}>
                     <FoodCategoryCard name={'Biji-bijian'} imgUrl={require("../images/seeds.png")} />
                     <FoodCategoryCard name={'Sayuran'} imgUrl={require("../images/fiber.png")} />
                     <FoodCategoryCard name={'Kacang-kacangan'} imgUrl={require("../images/nuts.png")} />

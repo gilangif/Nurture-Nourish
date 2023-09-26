@@ -11,13 +11,13 @@ import CreateProfileScreen from '../screens/CreateProfile';
 import { useEffect, useState } from 'react';
 import LayoutScreen from '../screens/LayoutScreen';
 import DashboardScreen from '../screens/DashboardScreen';
-import BottomComponent from '../components/BottomComponent';
 import FoodCategoryScreen from '../screens/FoodCategoryScreen';
 import NutritionScreen from '../screens/NutritionScreen';
 import NutritionDetailScreen from '../screens/NutritionDetailScreen';
 import SavedRecipeScreen from '../screens/SavedRecipeScreen';
 import RecipeDetailScreen from '../screens/RecipeDetailScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import FoodListCategoryScreen from '../screens/FoodListCategoryScreen';
 
 export default function MainStack() {
   const Stack = createNativeStackNavigator();
@@ -101,9 +101,13 @@ export default function MainStack() {
           name="ProfileDetail"
           component={ProfileScreen}
         />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="FoodListCategory"
+          component={FoodListCategoryScreen}
+        />
         <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
       </Stack.Navigator>
-      {/* <BottomComponent /> */}
     </LayoutScreen>
   )
 }

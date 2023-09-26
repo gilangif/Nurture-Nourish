@@ -1,8 +1,10 @@
-import { Image, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Image, Pressable, Text, View } from "react-native";
 
 export default function FoodCategoryCard({ name, imgUrl }) {
+    const navigation = useNavigation()
     return (
-        <View style={{
+        <Pressable Pressable onPress={() => navigation.navigate('FoodListCategory')} style={{
             padding: 10, width: '48%', height: 150,
             //  borderWidth: 2,
             // borderColor: "rgb(203 213 225)",
@@ -12,6 +14,6 @@ export default function FoodCategoryCard({ name, imgUrl }) {
             <Text style={{ fontFamily: "Poppins-SemiBold", marginTop: 10, fontSize: 14, textAlign: "center" }}>
                 {name}
             </Text>
-        </View>
+        </Pressable>
     )
 }
