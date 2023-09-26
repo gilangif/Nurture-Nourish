@@ -7,9 +7,11 @@ const app = express()
 const mongoose = require("mongoose")
 const port = 3000
 const router = require("./routes")
+const path = require("path")
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use("/uploads", express.static(path.join(__dirname, "uploads")))
 
 mongoose.connect(process.env.MONGO_CONNECTION_STRING)
 mongoose.connection

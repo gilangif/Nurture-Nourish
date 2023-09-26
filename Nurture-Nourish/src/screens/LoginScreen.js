@@ -10,8 +10,8 @@ export default function LoginScreen() {
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
-  const [username, setUsername] = useState("hahahehe")
-  const [password, setPassword] = useState("hahahehe")
+  const [username, setUsername] = useState("users")
+  const [password, setPassword] = useState("users")
 
   const handleLogin = async () => {
     dispatch(login(username, password)).then(() => navigation.navigate("Dashboard"))

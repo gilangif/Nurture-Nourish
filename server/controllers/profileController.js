@@ -1,11 +1,11 @@
 const User = require("../models/User")
-const { Profile } = require("../models/Profile")
+const Profile = require("../models/Profile")
 
 class ProfileController {
   static async getProfile(req, res, next) {
     try {
       const user = req.user
-      console.log(user)
+      console.log(await Profile.find())
       res.status(200).json(user.profile)
     } catch (err) {
       console.log(err)

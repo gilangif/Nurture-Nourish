@@ -1,16 +1,18 @@
 import { createStore, applyMiddleware } from "redux"
 import thunk from "redux-thunk"
-import { isAuthenticatedTypes } from "./actionTypes"
+import { getDailyTypes, isAuthenticatedTypes } from "./actionTypes"
 
 const initialState = {
   isAuthenticated: false,
+  daily: [],
 }
 
 const rootReducer = (state = initialState, action) => {
-  console.log("📌 action: ", action)
   switch (action.type) {
     case isAuthenticatedTypes:
       return { ...state, isAuthenticated: action.payload }
+    case getDailyTypes:
+      return { ...state, daily: action.payload }
 
     default:
       return state
