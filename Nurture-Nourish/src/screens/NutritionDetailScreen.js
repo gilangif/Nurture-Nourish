@@ -8,7 +8,6 @@ import BottomComponent from '../components/BottomComponent';
 
 export default function NutritionDetailScreen() {
     const navigation = useNavigation()
-    const [modalVisible, setModalVisible] = useState(false);
     return (
         <View style={{ backgroundColor: "white", flex: 1 }}>
             <HeaderComponent
