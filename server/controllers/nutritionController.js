@@ -98,10 +98,8 @@ class NutritionController {
         date,
         details,
         input: inputToStr,
-        ProfileId: user.profile
+        ProfileId: user.profile,
       })
-
-      console.log(nutrition)
 
       await nutrition.save()
 

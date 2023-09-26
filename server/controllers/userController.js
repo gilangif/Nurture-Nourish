@@ -49,14 +49,13 @@ class UserController {
 
   static async loginUser(req, res) {
     try {
-      const { username, password } = req.body
+      const { username, email, password } = req.body
       let user = null
 
-      if (username) {
+      if (email) {
+        user = await User.findOne({ email: email })
+      } else if (username) {
         user = await User.findOne({ username: username })
-        if (!user) {
-          user = await User.findOne({ email: username })
-        }
       }
       if (!user) {
         throw new Error("Invalid credentials, please try again")

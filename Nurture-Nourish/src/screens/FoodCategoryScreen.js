@@ -4,9 +4,18 @@ import { FontAwesome5 } from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
 import FoodCategoryCard from "../components/FoodCategoryCard"
 import BottomComponent from "../components/BottomComponent"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { getFoodByKey } from "../stores/actionCreator"
 
 export default function FoodCategoryScreen() {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+  const { foods } = useSelector((state) => state)
+
+  useEffect(() => {
+    dispatch(getFoodByKey("whole_grains")).then(()=> console.log(foods))
+  }, [])
 
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
