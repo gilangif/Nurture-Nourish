@@ -26,31 +26,24 @@ class UserController
       .save()
       .then(() =>
       {
-        console.log(newUser)
-        console.log("User saved successfully")
         res.status(201).json({
           message: "User created successfully",
         })
       })
       .catch((error) =>
       {
-        console.error("Error:", error.message)
-        console.log(error)
+        let code = 500;
         if (error.name === "ValidationError")
         {
-          console.error("Validation errors:", error.errors)
-        } else if (error.name === "MongoError" && error.code === 11000)
-        {
-          console.error("Duplicate key error:", error.message)
+          error.message = "Invalid data format"
+          code = 400
         } else if (error.name === "MongoServerError")
         {
-          console.error("Server error: ", error.message)
-        } else
-        {
-          console.error("Other error:", error.message)
+          error.message = "Duplicate key error"
+          code = 400
         }
-        res.status(500).json({
-          message: error.message,
+        res.status(code).json({
+          message: error.message
         })
       })
   }
@@ -59,15 +52,16 @@ class UserController
   {
     try
     {
-      const { username, email, password } = req.body
-      let user = null
+      const { username, password } = req.body
+      let user = null;
 
-      if (email)
-      {
-        user = await User.findOne({ email: email })
-      } else if (username)
+      if (username)
       {
         user = await User.findOne({ username: username })
+        if (!user)
+        {
+          user = await User.findOne({ email: username })
+        }
       }
       if (!user)
       {
@@ -92,17 +86,10 @@ class UserController
               })
             }
           })
-          .catch((error) =>
-          {
-            console.log(error)
-            res.status(500).json({
-              message: "Internal server error",
-            })
-          })
       }
     } catch (error)
     {
-      console.log(error)
+      // console.log(error)
       res.status(401).json({
         message: error.message,
       })

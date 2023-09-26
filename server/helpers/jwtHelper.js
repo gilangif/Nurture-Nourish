@@ -9,6 +9,7 @@ function generateToken(payload)
 function verifyToken(token)
 {
     const decoded = jwt.verify(token, JWT_SECRET);
+    console.log(decoded)
     return decoded;
 }
 
