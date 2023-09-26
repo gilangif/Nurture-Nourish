@@ -139,6 +139,52 @@ export default function DashboardScreen() {
                     </Pressable>
                 </View>
 
+                <View style={{ marginTop: 10 }}>
+                    <View
+                        style={{
+                            backgroundColor: "white", padding: 20, borderRadius: 20, borderWidth: 2,
+                            borderColor: 'rgb(203 213 225)'
+                        }}
+                    >
+                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+                            <View style={{ height: '100%', width: 5, backgroundColor: "gray", borderRadius: 10 }} />
+                            <Text style={{
+                                fontFamily: "Poppins-SemiBold",
+                                fontSize: 16,
+                                marginLeft: 5,
+                                marginTop: 1,
+                                flex: 1
+                            }}>
+                                241 Hari Lagi Menuju Kelahiran Si Kecil
+                            </Text>
+                        </View>
+                        <View style={{ flexDirection: "row", marginTop: 20, marginHorizontal: 3, alignItems: "center", justifyContent: "space-between" }}>
+                            <View>
+                                <Image style={{ width: 35, height: undefined, aspectRatio: 1 }} source={require('../images/fetus.png')} />
+                            </View>
+                            <View style={{ flex: 1, marginHorizontal: 10 }}>
+                                <View style={{ height: 10, borderRadius: 10, width: '100%', backgroundColor: "rgb(203 213 225)", overflow: "hidden" }}>
+                                    <View style={{ height: 10, borderRadius: 10, width: '50%', backgroundColor: "green" }} />
+                                </View>
+                            </View>
+                            <View >
+                                <Image style={{ width: 33, height: undefined, aspectRatio: 1 }} source={require('../images/baby.png')} />
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: "row", marginTop: 20, marginHorizontal: 3, }}>
+                            <Text style={{
+                                fontFamily: "Poppins-SemiBold",
+                                fontSize: 16,
+                                marginTop: -20,
+                                flex: 1,
+                                textAlign: "center"
+                            }}>
+                                Trimester 1
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+
                 {/* Rekomendasi Resep (sesuai timester) */}
                 <View style={{ marginTop: 20 }}>
                     <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 16, marginBottom: -4 }}>
@@ -153,9 +199,9 @@ export default function DashboardScreen() {
 
                 {/* Margin Bottom */}
                 <View style={{ height: 30 }} />
-            </ScrollView>
+            </ScrollView >
             <BottomComponent />
-        </View>
+        </View >
     )
 }
 
