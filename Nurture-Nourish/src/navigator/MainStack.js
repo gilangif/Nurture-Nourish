@@ -19,6 +19,8 @@ import RecipeDetailScreen from '../screens/RecipeDetailScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import FoodListCategoryScreen from '../screens/FoodListCategoryScreen';
 import AddNutritionScreen from '../screens/AddNutritionScreen';
+import ValidationInputFindRecipeScreen from '../screens/ValidationInputFindRecipeScreen';
+import RecipeRecommendationScreen from '../screens/RecipeRecommendationScreen';
 
 export default function MainStack() {
   const Stack = createNativeStackNavigator();
@@ -112,7 +114,18 @@ export default function MainStack() {
           name="AddNutrition"
           component={AddNutritionScreen}
         />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="ValidationInputFindRecipe"
+          component={ValidationInputFindRecipeScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="RecipeRecommendation"
+          component={RecipeRecommendationScreen}
+        />
         <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
+        <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }} />
       </Stack.Navigator>
     </LayoutScreen>
   )
