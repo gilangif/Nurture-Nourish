@@ -68,7 +68,7 @@ class RecipeController {
 
       res.status(200).json(data)
     } catch (err) {
-      console.log(err.response)
+      console.log(err)
       res.status(err.status || 500).json({ message: err.message })
     }
   }

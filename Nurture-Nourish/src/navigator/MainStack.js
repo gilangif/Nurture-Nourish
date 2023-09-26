@@ -46,6 +46,12 @@ export default function MainStack() {
   return (
     <LayoutScreen>
       <Stack.Navigator screenOptions={{ animation: "none" }}>
+
+      <Stack.Screen options={{ headerShown: false }} name="DashboardGilang" component={Dashboard} />
+      <Stack.Screen options={{ headerShown: false }} name="Camera" component={Camera} />
+        <Stack.Screen options={{ headerShown: false }} name="Preview" component={Preview} /> 
+
+
         <Stack.Screen
           options={{
             headerShown: false,
@@ -53,6 +59,9 @@ export default function MainStack() {
           name="Dashboard"
           component={DashboardScreen}
         />
+       
+
+
         <Stack.Screen options={{ headerShown: false }} name="FoodCategory" component={FoodCategoryScreen} />
         <Stack.Screen options={{ headerShown: false }} name="NutritionList" component={NutritionScreen} />
         <Stack.Screen options={{ headerShown: false }} name="NutritionDetail" component={NutritionDetailScreen} />
