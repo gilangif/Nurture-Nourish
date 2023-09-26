@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/24</span>
+                <span class='fraction'>22/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/24</span>
+                <span class='fraction'>22/24</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -117,38 +117,38 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -164,39 +164,39 @@ const User = require("../models/User")
 const Profile = require("../models/Profile")
 &nbsp;
 class PregnancyController {
-<span class="fstat-no" title="function not covered" >  st</span>atic async addPregnancy(req, res, next) {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const user = <span class="cstat-no" title="statement not covered" >req.user</span>
-      const userProfile = <span class="cstat-no" title="statement not covered" >await Profile.findById(user.profile)</span>
-      const { startDate } = <span class="cstat-no" title="statement not covered" >req.body</span>
-<span class="cstat-no" title="statement not covered" >      if (!startDate) {</span>
-<span class="cstat-no" title="statement not covered" >        throw { name: "BadRequest", message: "Invalid pregnancy data" }</span>
+  static async addPregnancy(req, res, next) {
+    try {
+      const user = req.user
+      const userProfile = await Profile.findById(user.profile)
+      const { startDate } = req.body
+      if (!startDate) {
+        throw { name: "BadRequest", message: "Invalid pregnancy data" }
       }
-      const pregData = <span class="cstat-no" title="statement not covered" >new PregnancyData({</span>
+      const pregData = new PregnancyData({
         startDate: startDate,
-        childrenNumber: userProfile.pregnancyData.length + 1 || 1,
+        childrenNumber: userProfile.pregnancyData.length + 1 || <span class="branch-1 cbranch-no" title="branch not covered" >1,</span>
         dailyNutrition: [],
       })
-<span class="cstat-no" title="statement not covered" >      await pregData.save()</span>
-<span class="cstat-no" title="statement not covered" >      userProfile.pregnancyData.push(pregData._id)</span>
-<span class="cstat-no" title="statement not covered" >      await userProfile.save()</span>
-<span class="cstat-no" title="statement not covered" >      res.status(200).json({</span>
+      await pregData.save()
+      userProfile.pregnancyData.push(pregData._id)
+      await userProfile.save()
+      res.status(200).json({
         message: "Pregnancy data added successfully",
       })
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.log(error)</span>
-<span class="cstat-no" title="statement not covered" >      res.status(400).json({</span>
+      console.log(error)
+      res.status(400).json({
         message: error.message,
       })
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  st</span>atic async getPregnancy(req, res, next) {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const user = <span class="cstat-no" title="statement not covered" >req.user</span>
-      const userProfile = <span class="cstat-no" title="statement not covered" >await Profile.findById(user.profile)</span>
-      const data = <span class="cstat-no" title="statement not covered" >await PregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1])</span>
-<span class="cstat-no" title="statement not covered" >      res.status(200).json(data)</span>
+  static async getPregnancy(req, res, next) {
+    try {
+      const user = req.user
+      const userProfile = await Profile.findById(user.profile)
+      const data = await PregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1])
+      res.status(200).json(data)
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      console.log(error)</span>
 <span class="cstat-no" title="statement not covered" >      res.status(500).json({</span>
@@ -214,7 +214,7 @@ module.exports = PregnancyController
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-09-26T10:06:56.095Z
+                at 2023-09-26T11:05:29.501Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

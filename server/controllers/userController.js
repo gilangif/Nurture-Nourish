@@ -7,45 +7,45 @@ class UserController
 {
   static async createUser(req, res, next)
   {
-    const { username, email, password } = req.body
-    const newProfile = new Profile({
-      name: "test",
-      gender: "test",
-      birthDate: new Date(),
-      pregnancyData: [],
-      favoriteRecipes: []
-    })
-    let savedProfile = await newProfile.save()
-    const newUser = new User({
-      username: username,
-      email: email,
-      password: password,
-      profile: savedProfile._id,
-    })
-    newUser
-      .save()
-      .then(() =>
-      {
-        res.status(201).json({
-          message: "User created successfully",
-        })
+    try
+    {
+      const { username, email, password } = req.body
+      const newProfile = new Profile({
+        name: "test",
+        gender: "test",
+        birthDate: new Date(),
+        pregnancyData: [],
+        favoriteRecipes: []
       })
-      .catch((error) =>
-      {
-        let code = 500;
-        if (error.name === "ValidationError")
-        {
-          error.message = "Invalid data format"
-          code = 400
-        } else if (error.name === "MongoServerError")
-        {
-          error.message = "Duplicate key error"
-          code = 400
-        }
-        res.status(code).json({
-          message: error.message
-        })
+      let savedProfile = await newProfile.save()
+      const newUser = new User({
+        username: username,
+        email: email,
+        password: password,
+        profile: savedProfile._id,
       })
+      await newUser.save()
+      res.status(201).json({
+        message: "User created successfully",
+      })
+    } catch (error)
+    {
+      let code = 500;
+      if (error.name === "ValidationError")
+      {
+        error.message = "Invalid data format"
+        code = 400
+      }
+      else if (error.name === "MongoServerError")
+      {
+        error.message = "Duplicate key error"
+        code = 400
+      }
+      res.status(code).json({
+        message: error.message
+      })
+
+    }
   }
 
   static async loginUser(req, res)
