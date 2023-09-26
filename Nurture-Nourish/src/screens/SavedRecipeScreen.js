@@ -28,7 +28,32 @@ export default function SavedRecipeScreen() {
                         </Pressable>
                     </>}
             />
+
             <ScrollView style={{ paddingHorizontal: 25 }}>
+                <View style={{ marginTop: 10 }}>
+                    <Pressable
+                        onPress={() => navigation.navigate('Camera')}
+                        style={{
+                            flexDirection: "row", alignItems: "center", backgroundColor: "white", padding: 20, borderRadius: 20, borderWidth: 2,
+                            borderColor: 'rgb(203 213 225)'
+                        }}
+                    >
+                        <View style={{ width: 60 }}>
+                            <View style={{ justifyContent: "center", alignItems: "center" }}>
+                                <Image resizeMode='cover' style={{ width: '60%', height: undefined, aspectRatio: 1 }} source={require('../images/healthy-food.png')} />
+                                <Image resizeMode='contain' style={{ width: '100%', height: undefined, opacity: 0.6, aspectRatio: 1, position: "absolute" }} source={require('../images/scanner.png')} />
+                            </View>
+                        </View>
+                        <View style={{ flex: 1, marginLeft: 15 }}>
+                            <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 15 }}>
+                                Bingung mau masak apa?
+                            </Text>
+                            <Text style={{ fontFamily: "Poppins-Medium", fontSize: 15 }}>
+                                Temukan resep makanan sehat
+                            </Text>
+                        </View>
+                    </Pressable>
+                </View>
                 <View style={{ marginTop: 10 }}>
                     <RecipeSaveCard />
                     <RecipeSaveCard />
