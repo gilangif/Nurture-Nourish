@@ -1,6 +1,11 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config()
 }
+const options = {}
+
+if (process.env.NODE_ENV === "test") {
+  options.dbName = "jest_test"
+}
 
 const express = require("express")
 const app = express()
@@ -11,7 +16,7 @@ const router = require("./routes")
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-mongoose.connect(process.env.MONGO_CONNECTION_STRING)
+mongoose.connect(process.env.MONGO_CONNECTION_STRING, options)
 mongoose.connection
   .once("open", function () {
     console.log("Database connected Successfully")

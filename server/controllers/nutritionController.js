@@ -1,7 +1,8 @@
-const { openAI } = require("../helpers/OpenAI")
+
 const DailyNutrition = require("../models/DailyNutrition")
 const Profile = require("../models/Profile")
 const PregnancyData = require("../models/Pregnancy")
+const { openAI } = require("../helpers/OpenAI")
 
 class NutritionController
 {

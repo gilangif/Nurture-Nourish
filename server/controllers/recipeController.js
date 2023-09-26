@@ -1,7 +1,7 @@
 const Recipe = require('../models/Recipe');
 const User = require('../models/User');
 const Profile = require('../models/Profile');
-const { openAI } = rqr('../helpers/openAI');
+const { openAI } = require('../helpers/OpenAI');
 class RecipeController
 {
     static async addRecipe(req, res)
