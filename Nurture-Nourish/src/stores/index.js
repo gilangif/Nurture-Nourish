@@ -1,11 +1,13 @@
 import { createStore, applyMiddleware } from "redux"
 import thunk from "redux-thunk"
-import { getDailyTypes, getFoodTypes, isAuthenticatedTypes } from "./actionTypes"
+import { getDailyTypes, getFoodTypes, getRecipesTypes, getSavedRecipesTypes, isAuthenticatedTypes } from "./actionTypes"
 
 const initialState = {
-  isAuthenticated: true,
+  isAuthenticated: false,
   daily: [],
-  foods: []
+  foods: [],
+  recipes: [],
+  getSavedRecipes: [],
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -16,6 +18,10 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, daily: action.payload }
     case getFoodTypes:
       return { ...state, foods: action.payload }
+    case getRecipesTypes:
+      return { ...state, recipes: action.payload }
+    case getSavedRecipesTypes:
+      return { ...state, getSavedRecipes: action.payload }
 
     default:
       return state

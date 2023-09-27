@@ -22,13 +22,13 @@ mongoose.connection
   .once("open", function () {
     console.log("Database connected Successfully")
   })
-  // .on("error", function (err) {
-  //   console.log("Error", err)
-  // })
+  .on("error", function (err) {
+    console.log("Error", err)
+  })
 
 app.get("/", (req, res) => res.send("server is running"))
 app.use(router)
 
-// app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
-module.exports = app;
+module.exports = app

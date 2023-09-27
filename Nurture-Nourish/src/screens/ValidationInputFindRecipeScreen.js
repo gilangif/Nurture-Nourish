@@ -1,81 +1,175 @@
-import { Image, Modal, Pressable, ScrollView, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
-import HeaderComponent from '../components/HeaderComponent'
-import { FontAwesome5, Feather, Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import BottomComponent from '../components/BottomComponent';
+import { Button, Image, Modal, Pressable, ScrollView, Text, TextInput, TouchableWithoutFeedback, View } from "react-native"
+import HeaderComponent from "../components/HeaderComponent"
+import { FontAwesome5, Feather, Entypo, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons"
+import { useEffect, useState } from "react"
+import { useNavigation, useRoute } from "@react-navigation/native"
+import BottomComponent from "../components/BottomComponent"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import Loading from "../components/Loading"
 
 export default function ValidationInputFindRecipeScreen() {
-    const navigation = useNavigation()
-    const [fields, setFields] = useState([{ food: '', value: '' }]);
+  const navigation = useNavigation()
+  const route = useRoute()
+  const [fields, setFields] = useState([{ food: "", value: "" }])
 
-    const addField = () => {
-        setFields([...fields, { food: '', value: '' }]);
-    };
+  const { uri } = route.params.data
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(true)
 
-    const removeField = () => {
-        if (fields.length > 1) {
-            const newFields = [...fields];
-            newFields.pop();
-            setFields(newFields);
-        }
-    };
+  // const [data, setData] = useState([
+  //   { confidence: 99.21, name: "Daging Babi", source: "aws-auto-tagging" },
+  //   { confidence: 99.21, name: "Daging Tikus", source: "aws-auto-tagging" },
+  //   { confidence: 97.97, name: "DAGING ANJING", source: "aws-auto-tagging" },
+  //   { confidence: 95.74, name: "wortel", source: "aws-auto-tagging" },
+  //   { confidence: 95.37, name: "kangkung", source: "aws-auto-tagging" },
+  // ])
 
+  const addField = () => {
+    setFields([...fields, { food: "", value: "" }])
+  }
+
+  const removeField = () => {
+    if (fields.length > 1) {
+      const newFields = [...fields]
+      newFields.pop()
+      setFields(newFields)
+    }
+  }
+
+  const recogniseImage = async () => {
+    try {
+      const form = new FormData()
+      const token = await AsyncStorage.getItem("access_token")
+
+      form.append("ingredients", {
+        uri: uri,
+        name: "sadsadad",
+        type: "image/jpg",
+      })
+
+      let res = await fetch("http://192.168.8.35:3000/recipes/recognise", {
+        method: "post",
+        body: form,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          access_token: token,
+        },
+      })
+
+      if (!res.ok) throw { message: "Connection error" }
+
+      const result = await res.json()
+
+      setData(result)
+    } catch (error) {
+      console.log("error upload", error)
+    }
+  }
+
+  const handleSubmit = () => {
+    const ingredients = fields.map((x) => x.value)
+    navigation.navigate("RecipeRecommendation", { ingredients })
+  }
+
+  useEffect(() => {
+    setLoading(true)
+    recogniseImage().then(() => {
+      console.log("dapat")
+    })
+  }, [uri, route.params])
+
+  useEffect(() => {
+    console.log(data, "🤢🤢🤢")
+    if (data.AITags) {
+      const objectDetection = data?.AITags?.map((x) => ({ food: x.name, value: x.name }))
+      setFields(objectDetection)
+      setLoading(false)
+    }
+  }, [data])
+
+  if (loading) {
+    return <Loading />
+  } else {
     return (
-        <View style={{ backgroundColor: "white", flex: 1 }}>
-            <HeaderComponent
-                leftContent={
-                    <Pressable onPress={() => navigation.goBack()}>
-                        <Feather name="arrow-left-circle" size={30} color="black" />
-                    </Pressable>}
-                centerContent={<Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 20 }}>Bahan Makanan</Text>}
-                rightContent={
-                    <Pressable onPress={() => { navigation.navigate('ProfileDetail'); console.log('clicked') }}>
-                        <FontAwesome5 name="user-circle" size={28} color="black" />
-                    </Pressable>
-                }
-            />
+      <View style={{ backgroundColor: "white", flex: 1 }}>
+        <HeaderComponent
+          leftContent={
+            <Pressable onPress={() => navigation.goBack()}>
+              <Feather name="arrow-left-circle" size={30} color="black" />
+            </Pressable>
+          }
+          centerContent={<Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 20 }}>Bahan Makanan</Text>}
+          rightContent={
+            <Pressable
+              onPress={() => {
+                navigation.navigate("ProfileDetail")
+                console.log("clicked")
+              }}
+            >
+              <FontAwesome5 name="user-circle" size={28} color="black" />
+            </Pressable>
+          }
+        />
 
-            <ScrollView style={{ paddingHorizontal: 25 }}>
-                <View style={{ marginTop: 10, gap: 10 }}>
-                    <View style={{ flexDirection: "row" }}>
-                        <Text style={{ flex: 1, paddingTop: 10, marginBottom: -5, fontSize: 16, fontFamily: "Poppins-SemiBold", borderRadius: 13 }} >Nama Bahan</Text>
-                    </View>
-                    {fields.map((field, index) => (
-                        <View key={index} style={{ gap: 10 }}>
-                            <View style={{ flexDirection: "row" }}>
-                                <TextInput
-                                    value={field.food}
-                                    onChangeText={text => {
-                                        const newFields = [...fields];
-                                        newFields[index].food = text;
-                                        setFields(newFields);
-                                    }}
-                                    style={{ borderWidth: 1, borderColor: "gray", flex: 1, paddingTop: 10, paddingHorizontal: 10, paddingBottom: 6, fontSize: 16, fontFamily: "Poppins-Medium", borderRadius: 13 }}
-                                />
-                            </View>
-                        </View>
-                    ))}
-                    <View style={{ flexDirection: "row", marginTop: 10, gap: 5, alignItems: 'center' }}>
-                        <Pressable style={{ flex: 1, padding: 10, marginRight: 5, backgroundColor: "black", borderRadius: 12 }} onPress={() => { navigation.navigate('RecipeRecommendation'); console.log('submitted') }}>
-                            <Text style={{ textAlign: 'center', fontFamily: 'Poppins-SemiBold', color: 'white', marginBottom: -3, fontSize: 16 }}>
-                                Submit
-                            </Text>
-                        </Pressable>
-                        <Pressable onPress={removeField}>
-                            <MaterialCommunityIcons name="minus-box" size={50} color="black" />
-                        </Pressable>
-                        <Pressable onPress={addField}>
-                            <MaterialCommunityIcons name="plus-box" size={50} color="black" />
-                        </Pressable>
-                    </View>
+        <ScrollView style={{ paddingHorizontal: 25 }}>
+          <View style={{ marginTop: 10, gap: 10 }}>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ flex: 1, paddingTop: 10, marginBottom: -5, fontSize: 16, fontFamily: "Poppins-SemiBold", borderRadius: 13 }}>
+                Nama Bahan
+              </Text>
+            </View>
+            {fields.map((field, index) => (
+              <View key={index} style={{ gap: 10 }}>
+                <View style={{ flexDirection: "row" }}>
+                  <TextInput
+                    value={field.food}
+                    onChangeText={(text) => {
+                      const newFields = [...fields]
+                      newFields[index].food = text
+                      newFields[index].value = text
+                      setFields(newFields)
+                    }}
+                    style={{
+                      borderWidth: 1,
+                      borderColor: "gray",
+                      flex: 1,
+                      paddingTop: 10,
+                      paddingHorizontal: 10,
+                      paddingBottom: 6,
+                      fontSize: 16,
+                      fontFamily: "Poppins-Medium",
+                      borderRadius: 13,
+                    }}
+                  />
+                  <Button
+                    title="delete"
+                    onPress={() => {
+                      const newData = [...fields]
+                      newData.splice(index, 1)
+                      setFields(newData)
+                    }}
+                  />
                 </View>
+              </View>
+            ))}
+            <View style={{ flexDirection: "row", marginTop: 10, gap: 5, alignItems: "center" }}>
+              <Pressable style={{ flex: 1, padding: 10, marginRight: 5, backgroundColor: "black", borderRadius: 12 }} onPress={() => handleSubmit()}>
+                <Text style={{ textAlign: "center", fontFamily: "Poppins-SemiBold", color: "white", marginBottom: -3, fontSize: 16 }}>Submit</Text>
+              </Pressable>
+              <Pressable onPress={removeField}>
+                <MaterialCommunityIcons name="minus-box" size={50} color="black" />
+              </Pressable>
+              <Pressable onPress={addField}>
+                <MaterialCommunityIcons name="plus-box" size={50} color="black" />
+              </Pressable>
+            </View>
+          </View>
 
-                {/* Margin Bottom */}
-                <View style={{ height: 30 }} />
-            </ScrollView >
-            <BottomComponent />
-        </View >
+          {/* Margin Bottom */}
+          <View style={{ height: 30 }} />
+        </ScrollView>
+        <BottomComponent />
+      </View>
     )
+  }
 }
-

@@ -1,4 +1,4 @@
-import { getDailyTypes, getFoodTypes, isAuthenticatedTypes } from "./actionTypes"
+import { getDailyTypes, getFoodTypes, getRecipesTypes, getSavedRecipesTypes, isAuthenticatedTypes } from "./actionTypes"
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
@@ -10,6 +10,12 @@ export function getDailyAction(payload) {
 }
 export function getFoodByKeyAction(payload) {
   return { type: getFoodTypes, payload }
+}
+export function getRecipesAction(payload) {
+  return { type: getRecipesTypes, payload }
+}
+export function getSavedRecipesAction(payload) {
+  return { type: getSavedRecipesTypes, payload }
 }
 
 export function login(username, password) {
@@ -67,6 +73,48 @@ export function getFoodByKey(key) {
         headers: { access_token: token },
       })
       dispatch(getFoodByKeyAction(data))
+    } catch (err) {
+      console.log(err, "📌📌📌📌")
+      alert(err)
+      throw err
+    }
+  }
+}
+
+export function getRecipes(ingredients) {
+  console.log("📌 ingredients: ", ingredients)
+  return async (dispatch) => {
+    try {
+      const token = await AsyncStorage.getItem("access_token")
+
+      const { data } = await axios({
+        url: "http://192.168.8.35:3000/recipes/get",
+        method: "POST",
+        headers: { access_token: token },
+        data: { ingredients },
+      })
+      dispatch(getRecipesAction(data))
+    } catch (err) {
+      console.log(err, "📌📌📌📌")
+      alert(err)
+      throw err
+    }
+  }
+}
+
+export function getSavedRecipes() {
+  console.log("masuk")
+  return async (dispatch) => {
+    try {
+      const token = await AsyncStorage.getItem("access_token")
+
+      const { data } = await axios({
+        url: "http://192.168.8.35:3000/recipes",
+        method: "GET",
+        headers: { access_token: token },
+      })
+
+      dispatch(getSavedRecipesAction(data))
     } catch (err) {
       console.log(err, "📌📌📌📌")
       alert(err)

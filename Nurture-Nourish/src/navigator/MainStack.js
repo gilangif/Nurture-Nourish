@@ -4,22 +4,22 @@ import Dashboard from "../screens/Dashboard"
 import Camera from "../screens/Camera"
 import Preview from "../screens/Preview"
 import Test from "../screens/Test"
-import WelcomeScreen from '../screens/WelcomeScreen';
-import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-import CreateProfileScreen from '../screens/CreateProfile';
-import { useEffect, useState } from 'react';
-import LayoutScreen from '../screens/LayoutScreen';
-import DashboardScreen from '../screens/DashboardScreen';
-import FoodCategoryScreen from '../screens/FoodCategoryScreen';
-import NutritionScreen from '../screens/NutritionScreen';
-import NutritionDetailScreen from '../screens/NutritionDetailScreen';
-import SavedRecipeScreen from '../screens/SavedRecipeScreen';
-import RecipeDetailScreen from '../screens/RecipeDetailScreen';
-import FoodListCategoryScreen from '../screens/FoodListCategoryScreen';
-import AddNutritionScreen from '../screens/AddNutritionScreen';
-import ValidationInputFindRecipeScreen from '../screens/ValidationInputFindRecipeScreen';
-import RecipeRecommendationScreen from '../screens/RecipeRecommendationScreen';
+import WelcomeScreen from "../screens/WelcomeScreen"
+import LoginScreen from "../screens/LoginScreen"
+import RegisterScreen from "../screens/RegisterScreen"
+import CreateProfileScreen from "../screens/CreateProfile"
+import { useEffect, useState } from "react"
+import LayoutScreen from "../screens/LayoutScreen"
+import DashboardScreen from "../screens/DashboardScreen"
+import FoodCategoryScreen from "../screens/FoodCategoryScreen"
+import NutritionScreen from "../screens/NutritionScreen"
+import NutritionDetailScreen from "../screens/NutritionDetailScreen"
+import SavedRecipeScreen from "../screens/SavedRecipeScreen"
+import RecipeDetailScreen from "../screens/RecipeDetailScreen"
+import FoodListCategoryScreen from "../screens/FoodListCategoryScreen"
+import AddNutritionScreen from "../screens/AddNutritionScreen"
+import ValidationInputFindRecipeScreen from "../screens/ValidationInputFindRecipeScreen"
+import RecipeRecommendationScreen from "../screens/RecipeRecommendationScreen"
 import ProfileScreen from "../screens/ProfileScreen"
 
 import { useSelector } from "react-redux"
@@ -49,11 +49,9 @@ export default function MainStack() {
   return (
     <LayoutScreen>
       <Stack.Navigator screenOptions={{ animation: "none" }}>
-
         {/* <Stack.Screen options={{ headerShown: false }} name="DashboardGilang" component={Dashboard} /> */}
         {/* <Stack.Screen options={{ headerShown: false }} name="Camera" component={Camera} /> */}
         {/* <Stack.Screen options={{ headerShown: false }} name="Preview" component={Preview} />  */}
-
 
         <Stack.Screen
           options={{
@@ -63,26 +61,10 @@ export default function MainStack() {
           component={DashboardScreen}
         />
 
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="FoodListCategory"
-          component={FoodListCategoryScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="AddNutrition"
-          component={AddNutritionScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="ValidationInputFindRecipe"
-          component={ValidationInputFindRecipeScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="RecipeRecommendation"
-          component={RecipeRecommendationScreen}
-        />
+        <Stack.Screen options={{ headerShown: false }} name="FoodListCategory" component={FoodListCategoryScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="AddNutrition" component={AddNutritionScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="ValidationInputFindRecipe" component={ValidationInputFindRecipeScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="RecipeRecommendation" component={RecipeRecommendationScreen} />
         <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }} />
         <Stack.Screen options={{ headerShown: false }} name="FoodCategory" component={FoodCategoryScreen} />
         <Stack.Screen options={{ headerShown: false }} name="NutritionList" component={NutritionScreen} />
@@ -95,7 +77,6 @@ export default function MainStack() {
         <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Register" component={RegisterScreen} />
         <Stack.Screen options={{ headerShown: false }} name="CreateProfile" component={CreateProfileScreen} />
-
       </Stack.Navigator>
     </LayoutScreen>
   )
