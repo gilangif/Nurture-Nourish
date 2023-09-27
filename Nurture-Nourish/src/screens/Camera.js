@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { StyleSheet, Text, View, TouchableOpacity, Pressable } from "react-native"
 import { Camera } from "expo-camera"
-import HeaderComponent from "../components/HeaderComponent"
-import { Feather, FontAwesome5 } from "@expo/vector-icons"
 
 export default function CameraComp({ navigation }) {
   const [hasCameraPermission, setHasCameraPermission] = useState(null)
@@ -21,7 +19,7 @@ export default function CameraComp({ navigation }) {
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync(null)
-      navigation.navigate("ValidationInputFindRecipe", { data })
+      navigation.navigate("Preview", { data })
     }
   }
 

@@ -1,44 +1,45 @@
 const { openAI } = require("../helpers/OpenAI")
-const Nutrition = require("../models/Nutrition")
+const DailyNutrition = require("../models/DailyNutrition")
+const Profile = require("../models/Profile")
+const PregnancyData = require("../models/Pregnancy")
 
-class NutritionController
-{
-  static async getNutrition(req, res, next)
-  {
-    try
-    {
-      const data = await Nutrition.find()
+class NutritionController {
+  static async getNutrition(req, res, next) {
+    try {
+      const user = req.user
+      const userProfile = await Profile.findById(user.profile)
+      const pregData = await PregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1])
+      const data = []
+      for (let i = 0; i < pregData.dailyNutrition.length; i++) {
+        const nutrition = await DailyNutrition.findById(pregData.dailyNutrition[i])
+        data.push(nutrition)
+      }
       res.status(200).json(data)
-    } catch (error)
-    {
+    } catch (error) {
       console.log(error)
       res.status(500).json({ message: error.message })
     }
   }
 
-  static async getNutritionByProfileId(req, res, next)
-  {
-    try
-    {
+  static async getNutritionByProfileId(req, res, next) {
+    try {
       const { ProfileId } = req.params
       const data = await Nutrition.find({ ProfileId })
 
       res.status(200).json(data)
-    } catch (error)
-    {
+    } catch (error) {
       console.log(error)
       res.status(500).json({ message: error.message })
     }
   }
 
-  static async addNutrition(req, res, next)
-  {
-    try
-    {
+  static async addNutrition(req, res, next) {
+    try {
       const { date, input } = req.body
-      const { ProfileId } = req.params
+      const user = req.user
+      const userProfile = await Profile.findById(user.profile)
 
-      if (!date || input || input.length === 0) throw { message: "Invalid data format", status: 400 }
+      if (!date || !input || input.length === 0) throw { message: "Invalid data format", status: 400 }
 
       const AKG = {
         Energi_kkal: { value: 1900 },
@@ -59,24 +60,9 @@ class NutritionController
         Vitamin_B1: { value: 1.4 },
       }
 
-      // asumsi sample input
-      // {
-      //   "date": "12/01/1999",
-      //   "input": [
-      //     {
-      //       "name": "nasi",
-      //       "weight": 200
-      //     },
-      //     {
-      //       "name": "ayam",
-      //       "weight": 100
-      //     }
-      //   ]
-      // }
-
       const inputToStr = input.map((x) => x.name + " " + x.weight + "gr").join(", ")
-      const query = `give information about ${inputToStr} bayam for women trimester 1 with output only for this json format, dont set gram unit on result 
-      { 
+      const query = `give information about ${inputToStr} bayam for women trimester 1 with output only for this json format, dont set gram unit on result
+      {
         Energi_kkal: { value : number, information : string},
         Protein_g: { value : number, information : string },
         Lemak_Total: { value : number, information : string},
@@ -99,30 +85,46 @@ class NutritionController
       const openai = await openAI(query)
       const details = JSON.parse(openai[0]?.message?.content)
 
-      if (openai.length === 0 || openai[0].message.content) throw { message: "Failed to get OpenAI expect result", status: 400 }
-
-      let totalAKG = 0
-      let totalNutrition = 0
-
-      for (let x in AKG)
-      {
-        totalAKG += AKG[x].value
-        totalNutrition += details[x].value
+      for (let x in details) {
+        console.log(x, details[x]?.value, AKG[x]?.value)
+        if (x !== "conclusion") {
+          details[x].percentage = Math.ceil((details[x]?.value / AKG[x]?.value) * 100)
+        }
       }
 
-      const add = new Nutrition({
+      const pregData = await PregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1])
+
+      const nutrition = new DailyNutrition({
         date,
         details,
-        ProfileId,
-        totalAKG: Math.ceil(totalAKG),
-        totalNutrition: Math.ceil(totalNutrition),
-        percentage: Math.ceil((totalNutrition / totalAKG) * 100),
+        input: inputToStr,
+        ProfileId: user.profile,
       })
 
-      res.status(200).json(await add.save())
-    } catch (error)
-    {
-      res.status(error.status || 500).json({ message: error.message })
+      await nutrition.save()
+
+      pregData.dailyNutrition.push(nutrition._id)
+
+      await pregData.save()
+
+      res.status(201).json({ message: "OK", nutrition })
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+      })
+    }
+  }
+  static async deleteNutrition(req, res, next) {
+    try {
+      const { id } = req.params
+      const data = await DailyNutrition.findByIdAndDelete(id)
+
+      res.status(200).json({
+        message: "Nutrition deleted successfully",
+      })
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({ message: error.message })
     }
   }
 }
