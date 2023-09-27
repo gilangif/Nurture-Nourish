@@ -49,7 +49,8 @@ beforeAll(async () =>
     }
 })
 
-beforeEach(async () => {
+beforeEach(async () =>
+{
     jest.restoreAllMocks();
 });
 
@@ -67,72 +68,56 @@ describe("User Routes", () =>
         {
             test("Should return status 201 and message", async () =>
             {
-                try
-                {
-                    const body = {
-                        email: "test@mail.com",
-                        username: "testing",
-                        password: "test123",
-                    }
-                    const response = await request(app).post("/register").send(body)
-                    expect(response.status).toBe(201)
-                    expect(response.body).toHaveProperty("message", "User created successfully")
-                } catch (error)
-                {
-                    console.log(error)
+
+                const body = {
+                    email: "success@mail.com",
+                    username: "success",
+                    password: "test123",
                 }
+                const response = await request(app).post("/users/register").send(body)
+                expect(response.status).toBe(201)
+                expect(response.body).toHaveProperty("message", "User created successfully")
+
             }, 8000)
         })
         describe("Error", () =>
         {
             test("Should return status 400 and message duplicate key error", async () =>
             {
-                try
                 {
                     const body = {
-                        email: "test@mail.com",
-                        username: "testing",
+                        email: "seeded@mail.com",
+                        username: "seededuser",
                         password: "test123",
                     }
-                    const response = await request(app).post("/register").send(body)
+                    const response = await request(app).post("/users/register").send(body)
                     expect(response.status).toBe(400)
                     expect(response.body).toHaveProperty("message", "Duplicate key error")
-                } catch (error)
-                {
-                    console.log(error)
                 }
             })
             test("Should return status 400 and message invalid data format", async () =>
             {
-                try
-                {
-                    const body = {
-                        username: "testing",
-                        password: "test123",
-                    }
-                    const response = await request(app).post("/users/register").send(body)
-                    expect(response.status).toBe(400)
-                    expect(response.body).toHaveProperty("message", "Invalid data format")
-                } catch (error)
-                {
-                    console.log(error)
+
+                const body = {
+                    username: "testing",
+                    password: "test123",
                 }
+                const response = await request(app).post("/users/register").send(body)
+                expect(response.status).toBe(400)
+                expect(response.body).toHaveProperty("message", "Invalid data format")
+
             }, 8000)
             test("Should return status 400 and message invalid data format", async () =>
             {
-                try
-                {
-                    const body = {
-                        email: "test@gmail.com",
-                        password: "test123",
-                    }
-                    const response = await request(app).post("/users/register").send(body)
-                    expect(response.status).toBe(400)
-                    expect(response.body).toHaveProperty("message", "Invalid data format")
-                } catch (error)
-                {
-                    console.log(error)
+
+                const body = {
+                    email: "test@gmail.com",
+                    password: "test123",
                 }
+                const response = await request(app).post("/users/register").send(body)
+                expect(response.status).toBe(400)
+                expect(response.body).toHaveProperty("message", "Invalid data format")
+
             }, 8000)
 
         })
@@ -144,22 +129,18 @@ describe("User Routes", () =>
         {
             test("Login using username", async () =>
             {
-                try
-                {
-                    const body = {
-                        username: "seededuser",
-                        password: "test123",
-                    }
-                    const response = await request(app).post("/users/login").send(body)
-                    expect(response.status).toBe(200)
-                    expect(response.body).toHaveProperty("message", "Successfully logged in")
-                    expect(response.body).toHaveProperty("access_token", expect.any(String))
-                    access_token = response.body.access_token;
-                    console.log(access_token, "DARI TESTING")
-                } catch (error)
-                {
-                    console.log(error)
+
+                const body = {
+                    username: "seededuser",
+                    password: "test123",
                 }
+                const response = await request(app).post("/users/login").send(body)
+                expect(response.status).toBe(200)
+                expect(response.body).toHaveProperty("message", "Successfully logged in")
+                expect(response.body).toHaveProperty("access_token", expect.any(String))
+                access_token = response.body.access_token;
+                console.log(access_token, "DARI TESTING")
+
             }, 8000)
             test("login using email", async () =>
             {
@@ -261,7 +242,8 @@ describe("Profile Routes", () =>
                 expect(response.status).toBe(401)
                 expect(response.body).toHaveProperty("message", "Invalid token")
             }, 8000)
-            test("Invalid profile", async () => {
+            test("Invalid profile", async () =>
+            {
                 jest.spyOn(Profile, "findById").mockRejectedValue("Error")
                 const headers = {
                     access_token: access_token
@@ -291,20 +273,22 @@ describe("Profile Routes", () =>
                 expect(response.body).toHaveProperty("message", "Profile updated successfully")
             }, 8000)
         }),
-        describe("Error", () => {
-            test("Update profile failure", async () => {
-                const headers = {
-                    access_token: access_token
-                }
-                const body = {
-                    name: "test",
-                    gender: "test",
-                }
-                const response = await request(app).put("/profiles").set(headers).send(body)
-                expect(response.status).toBe(400)
-                expect(response.body).toHaveProperty("message", "Invalid data format")
+            describe("Error", () =>
+            {
+                test("Update profile failure", async () =>
+                {
+                    const headers = {
+                        access_token: access_token
+                    }
+                    const body = {
+                        name: "test",
+                        gender: "test",
+                    }
+                    const response = await request(app).put("/profiles").set(headers).send(body)
+                    expect(response.status).toBe(400)
+                    expect(response.body).toHaveProperty("message", "Invalid data format")
+                })
             })
-        })
     })
 )
 
@@ -346,7 +330,8 @@ describe("Pregnancy Routes", () =>
                 expect(response.body).toHaveProperty("message", "Pregnancy data added successfully")
             }, 8000)
         })
-        describe("Error", () => {
+        describe("Error", () =>
+        {
             test("Fail adding pregnancy data", async () =>
             {
                 const headers = {

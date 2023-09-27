@@ -44,7 +44,6 @@ class UserController
       res.status(code).json({
         message: error.message
       })
-
     }
   }
 
