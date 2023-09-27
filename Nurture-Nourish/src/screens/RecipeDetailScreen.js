@@ -9,7 +9,7 @@ export default function RecipeDetailScreen() {
   const navigation = useNavigation()
   const route = useRoute()
 
-  const { recipe } = route.params
+  const { recipe, status } = route.params
   useEffect(() => {
     console.log(route)
   }, [])
@@ -25,7 +25,8 @@ export default function RecipeDetailScreen() {
         centerContent={<Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 20 }}>Resep Makanan</Text>}
         rightContent={
           <>
-            <Feather name="bookmark" size={28} color="black" />
+          {  status && status === "unsave" ?  (<Feather name="bookmark" size={28} color="black" />) : ""
+           }
             <FontAwesome5 name="user-circle" size={28} color="black" />
           </>
         }

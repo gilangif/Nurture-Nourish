@@ -18,9 +18,6 @@ export default function SavedRecipeScreen() {
     dispatch(getSavedRecipes())
   }, [])
 
-  //   useEffect(() => {
-  //     console.log(getSavedRecipes)
-  //   }, [getSavedRecipes])
 
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>

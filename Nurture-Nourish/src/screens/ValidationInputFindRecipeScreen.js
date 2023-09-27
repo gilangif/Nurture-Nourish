@@ -38,8 +38,8 @@ export default function ValidationInputFindRecipeScreen() {
 
   const recogniseImage = async () => {
     try {
-      const form = new FormData()
       const token = await AsyncStorage.getItem("access_token")
+      const form = new FormData()
 
       form.append("ingredients", {
         uri: uri,
@@ -47,12 +47,12 @@ export default function ValidationInputFindRecipeScreen() {
         type: "image/jpg",
       })
 
-      let res = await fetch("http://192.168.8.35:3000/recipes/recognise", {
+      let res = await fetch("http://192.168.43.122:3000/recipes/recognise", {
         method: "post",
         body: form,
         headers: {
           "Content-Type": "multipart/form-data",
-          access_token: token,
+          // access_token: token,
         },
       })
 
@@ -73,10 +73,55 @@ export default function ValidationInputFindRecipeScreen() {
 
   useEffect(() => {
     setLoading(true)
-    recogniseImage().then(() => {
-      console.log("dapat")
+
+    // recogniseImage()
+
+    setData({
+      fileId: "65142d4888c257da33a6e878",
+      name: "ingredients_ZkBP1UOsw.jpg",
+      size: 38742,
+      versionInfo: {
+        id: "65142d4888c257da33a6e878",
+        name: "Version 1",
+      },
+      filePath: "/ingredients_ZkBP1UOsw.jpg",
+      url: "https://ik.imagekit.io/nfpxx9byw/ingredients_ZkBP1UOsw.jpg",
+      fileType: "image",
+      height: 466,
+      width: 660,
+      thumbnailUrl: "https://ik.imagekit.io/nfpxx9byw/tr:n-ik_ml_thumbnail/ingredients_ZkBP1UOsw.jpg",
+      AITags: [
+        {
+          name: "Food",
+          confidence: 99.96,
+          source: "aws-auto-tagging",
+        },
+        {
+          name: "Plant",
+          confidence: 99.96,
+          source: "aws-auto-tagging",
+        },
+        {
+          name: "Produce",
+          confidence: 99.96,
+          source: "aws-auto-tagging",
+        },
+        {
+          name: "Tomato",
+          confidence: 99.96,
+          source: "aws-auto-tagging",
+        },
+        {
+          name: "Vegetable",
+          confidence: 99.96,
+          source: "aws-auto-tagging",
+        },
+      ],
+      extensionStatus: {
+        "aws-auto-tagging": "success",
+      },
     })
-  }, [uri, route.params])
+  }, [uri])
 
   useEffect(() => {
     console.log(data, "🤢🤢🤢")

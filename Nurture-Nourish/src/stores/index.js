@@ -3,7 +3,7 @@ import thunk from "redux-thunk"
 import { getDailyTypes, getFoodTypes, getRecipesTypes, getSavedRecipesTypes, isAuthenticatedTypes } from "./actionTypes"
 
 const initialState = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   daily: [],
   foods: [],
   recipes: [],

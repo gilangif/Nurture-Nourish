@@ -1,11 +1,11 @@
 import { useNavigation } from "@react-navigation/native"
 import { Image, Pressable, Text, View } from "react-native"
 
-export default function RecipeSaveCard({ recipe }) {
+export default function RecipeSaveCard({ recipe, status }) {
   const navigation = useNavigation()
 
   return (
-    <Pressable onPress={() => navigation.navigate("RecipeDetail", { recipe })} style={{ marginBottom: 20 }}>
+    <Pressable onPress={() => navigation.navigate("RecipeDetail", { recipe, status })} style={{ marginBottom: 20 }}>
       <View
         style={{
           borderRadius: 15,
