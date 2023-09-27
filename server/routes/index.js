@@ -10,7 +10,7 @@ const recipe = require("./recipes")
 const userMeal = require("./userMeals")
 
 router.use(user)
-// router.use(authentication)
+router.use(authentication)
 router.use(nutrition)
 router.use(profile)
 router.use(food)
