@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native"
+import { StyleSheet, Text, View, TouchableOpacity, Pressable } from "react-native"
 import { Camera } from "expo-camera"
+import HeaderComponent from "../components/HeaderComponent"
+import { Feather, FontAwesome5 } from "@expo/vector-icons"
 
 export default function CameraComp({ navigation }) {
   const [hasCameraPermission, setHasCameraPermission] = useState(null)
@@ -19,7 +21,7 @@ export default function CameraComp({ navigation }) {
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync(null)
-      navigation.navigate("Preview", { data })
+      navigation.navigate("ValidationInputFindRecipe", { data })
     }
   }
 
@@ -29,6 +31,18 @@ export default function CameraComp({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <HeaderComponent
+        leftContent={
+          <Pressable onPress={() => navigation.goBack()}>
+            <Feather name="arrow-left-circle" size={30} color="black" />
+          </Pressable>}
+        centerContent={<Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 20 }}>Camera</Text>}
+        rightContent={
+          <Pressable onPress={() => { navigation.navigate('ProfileDetail'); console.log('clicked') }}>
+            <FontAwesome5 name="user-circle" size={28} color="black" />
+          </Pressable>
+        }
+      />
       <Camera ref={(ref) => setCamera(ref)} style={styles.fixedRatio} type={type} ratio={"4:3"} />
       <View style={styles.shotBox}>
         <TouchableOpacity
@@ -45,6 +59,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
+    backgroundColor: "white"
   },
 
   fixedRatio: {

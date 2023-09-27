@@ -13,6 +13,6 @@ const foodSchema = new mongoose.Schema({
   share_message: String,
 });
 
-const Food = mongoose.model('Food', foodSchema);
+const Food = new mongoose.model('food', foodSchema);
 
 module.exports = Food;

@@ -1,5 +1,5 @@
 const User = require("../models/User")
-const Profile = require('../models/Profile');
+const Profile = require("../models/Profile")
 const bcrypt = require("bcryptjs")
 const { generateToken } = require("../helpers/jwtHelper")
 
@@ -62,24 +62,19 @@ class UserController
           user = await User.findOne({ email: username })
         }
       }
-      if (!user)
-      {
+      if (!user) {
         throw new Error("Invalid credentials, please try again")
-      } else
-      {
+      } else {
         bcrypt
           .compare(password, user.password)
-          .then((match) =>
-          {
-            if (match)
-            {
+          .then((match) => {
+            if (match) {
               const access_token = generateToken({ id: user["_id"] })
               res.status(200).json({
                 access_token: access_token,
                 message: "Successfully logged in",
               })
-            } else
-            {
+            } else {
               res.status(401).json({
                 message: "Invalid credentials, please try again",
               })

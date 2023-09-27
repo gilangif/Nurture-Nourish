@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
             {
                 return value.length >= 5;
             },
-            message: 'Password must be at least 5 characters long'
+            message: 'Username must be at least 5 characters long'
         },
     },
     email: {

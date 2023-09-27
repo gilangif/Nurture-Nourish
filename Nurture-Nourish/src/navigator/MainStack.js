@@ -1,4 +1,4 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import Chat from "../screens/Chat"
 import Dashboard from "../screens/Dashboard"
 import Camera from "../screens/Camera"
@@ -11,103 +11,95 @@ import CreateProfileScreen from '../screens/CreateProfile';
 import { useEffect, useState } from 'react';
 import LayoutScreen from '../screens/LayoutScreen';
 import DashboardScreen from '../screens/DashboardScreen';
-import BottomComponent from '../components/BottomComponent';
 import FoodCategoryScreen from '../screens/FoodCategoryScreen';
 import NutritionScreen from '../screens/NutritionScreen';
 import NutritionDetailScreen from '../screens/NutritionDetailScreen';
 import SavedRecipeScreen from '../screens/SavedRecipeScreen';
 import RecipeDetailScreen from '../screens/RecipeDetailScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+import FoodListCategoryScreen from '../screens/FoodListCategoryScreen';
+import AddNutritionScreen from '../screens/AddNutritionScreen';
+import ValidationInputFindRecipeScreen from '../screens/ValidationInputFindRecipeScreen';
+import RecipeRecommendationScreen from '../screens/RecipeRecommendationScreen';
+import ProfileScreen from "../screens/ProfileScreen"
+
+import { useSelector } from "react-redux"
 
 export default function MainStack() {
-  const Stack = createNativeStackNavigator();
+  const Stack = createNativeStackNavigator()
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated } = useSelector((state) => state)
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const loggedIn = true;
-      setIsAuthenticated(loggedIn);
-    };
-
-    checkAuth();
-  }, []);
+    console.log(isAuthenticated)
+  }, [isAuthenticated])
 
   if (!isAuthenticated) {
     return (
       <LayoutScreen>
         <Stack.Navigator screenOptions={{ animation: "none" }}>
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="Welcome"
-            component={WelcomeScreen}
-          />
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="Login"
-            component={LoginScreen}
-          />
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="Register"
-            component={RegisterScreen}
-          />
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="CreateProfile"
-            component={CreateProfileScreen}
-          />
+          <Stack.Screen options={{ headerShown: false }} name="Welcome" component={WelcomeScreen} />
+          <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+          <Stack.Screen options={{ headerShown: false }} name="Register" component={RegisterScreen} />
+          <Stack.Screen options={{ headerShown: false }} name="CreateProfile" component={CreateProfileScreen} />
         </Stack.Navigator>
       </LayoutScreen>
-    );
+    )
   }
 
   return (
     <LayoutScreen>
       <Stack.Navigator screenOptions={{ animation: "none" }}>
+
+        {/* <Stack.Screen options={{ headerShown: false }} name="DashboardGilang" component={Dashboard} /> */}
+        {/* <Stack.Screen options={{ headerShown: false }} name="Camera" component={Camera} /> */}
+        {/* <Stack.Screen options={{ headerShown: false }} name="Preview" component={Preview} />  */}
+
+
         <Stack.Screen
           options={{
             headerShown: false,
           }}
           name="Dashboard"
-          component={DashboardScreen} />
+          component={DashboardScreen}
+        />
+
         <Stack.Screen
           options={{ headerShown: false }}
-          name="FoodCategory"
-          component={FoodCategoryScreen}
+          name="FoodListCategory"
+          component={FoodListCategoryScreen}
         />
         <Stack.Screen
           options={{ headerShown: false }}
-          name="NutritionList"
-          component={NutritionScreen}
+          name="AddNutrition"
+          component={AddNutritionScreen}
         />
         <Stack.Screen
           options={{ headerShown: false }}
-          name="NutritionDetail"
-          component={NutritionDetailScreen}
+          name="ValidationInputFindRecipe"
+          component={ValidationInputFindRecipeScreen}
         />
         <Stack.Screen
           options={{ headerShown: false }}
-          name="Saved"
-          component={SavedRecipeScreen}
+          name="RecipeRecommendation"
+          component={RecipeRecommendationScreen}
         />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="RecipeDetail"
-          component={RecipeDetailScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="ProfileDetail"
-          component={ProfileScreen}
-        />
+        <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }} />
+        <Stack.Screen options={{ headerShown: false }} name="FoodCategory" component={FoodCategoryScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="NutritionList" component={NutritionScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="NutritionDetail" component={NutritionDetailScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Saved" component={SavedRecipeScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="RecipeDetail" component={RecipeDetailScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="ProfileDetail" component={ProfileScreen} />
         <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
+        <Stack.Screen options={{ headerShown: false }} name="Welcome" component={WelcomeScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Register" component={RegisterScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="CreateProfile" component={CreateProfileScreen} />
+
       </Stack.Navigator>
-      {/* <BottomComponent /> */}
     </LayoutScreen>
   )
 }
-
 
 // export default function MainStack() {
 //   return (

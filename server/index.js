@@ -12,6 +12,7 @@ const app = express()
 const mongoose = require("mongoose")
 const port = 3000
 const router = require("./routes")
+const path = require("path")
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
