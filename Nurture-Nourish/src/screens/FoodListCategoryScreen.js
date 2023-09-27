@@ -29,14 +29,11 @@ export default function FoodListCategoryScreen() {
   }, [])
 
   useEffect(() => {
-    setLoading(true)
     if (!search) {
       setFilter([...foods])
-      setLoading(false)
     } else {
       const filterData = foods.filter((x) => x.name.toLowerCase().includes(search.toLowerCase()))
       setFilter(filterData)
-      setLoading(false)
     }
   }, [search, foods])
 

@@ -3,29 +3,46 @@ import * as TalkRn from "@talkjs/expo"
 import HeaderComponent from "../components/HeaderComponent"
 import { Feather, FontAwesome5 } from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useEffect, useState } from "react"
+
 
 export default function Chat() {
   const navigation = useNavigation()
-  const me = {
-    id: "123456789",
-    name: "rama",
-    email: "rama@example.com",
-    photoUrl: "https://talkjs.com/images/avatar-1.jpg",
-    welcomeMessage: "Hey there! How are you? :-)",
+  const [me, setMe] = useState({
+    id: "123456",
+    name: "Rama",
+    email: "rama@rama.com",
+    photoUrl: "https://cdn.icon-icons.com/icons2/2643/PNG/512/female_woman_user_people_avatar_white_tone_icon_159354.png",
+    welcomeMessage: "Halo dr. Verdian saya ingin berkonsultasi.",
     role: "default",
-  }
+  })
 
   const other = {
-    id: "987654321",
-    name: "Dr. Verdian",
+    id: "verdianOP",
+    name: "dr. Verdian OP",
     email: "verdian@doctor.com",
-    photoUrl: "https://talkjs.com/images/avatar-5.jpg",
-    welcomeMessage: "Hey, how can I help?",
+    photoUrl: "https://cdn.icon-icons.com/icons2/2643/PNG/512/male_boy_person_people_avatar_white_tone_icon_159368.png",
+    welcomeMessage: `Hei ${me.email}, ada yang bisa dibantu?`,
     role: "default",
   }
 
-  const conversationBuilder = TalkRn.getConversationBuilder(TalkRn.oneOnOneId(me, other))
+  useEffect(() => {
+    const fetchUser = async () => {
+      const id = await AsyncStorage.getItem("id")
+      const email = await AsyncStorage.getItem("email")
+      const name = await AsyncStorage.getItem("username")
+      setMe((prevMe) => ({
+        ...prevMe,
+        id: id || prevMe.id,
+        name: name || prevMe.name,
+        email: email || prevMe.email,
+      }))
+    }
+    fetchUser()
+  }, [])
 
+  const conversationBuilder = TalkRn.getConversationBuilder(TalkRn.oneOnOneId(me, other))
   conversationBuilder.setParticipant(me)
   conversationBuilder.setParticipant(other)
 
@@ -35,10 +52,16 @@ export default function Chat() {
         leftContent={
           <Pressable onPress={() => navigation.goBack()}>
             <Feather name="arrow-left-circle" size={30} color="black" />
-          </Pressable>}
+          </Pressable>
+        }
         centerContent={<Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 20 }}>Chat Counselor</Text>}
         rightContent={
-          <Pressable onPress={() => { navigation.navigate('ProfileDetail'); console.log('clicked') }}>
+          <Pressable
+            onPress={() => {
+              navigation.navigate("ProfileDetail")
+              console.log("clicked")
+            }}
+          >
             <FontAwesome5 name="user-circle" size={28} color="black" />
           </Pressable>
         }

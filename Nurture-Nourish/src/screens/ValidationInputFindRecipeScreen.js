@@ -6,6 +6,7 @@ import { useNavigation, useRoute } from "@react-navigation/native"
 import BottomComponent from "../components/BottomComponent"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import Loading from "../components/Loading"
+import axios from "axios"
 
 export default function ValidationInputFindRecipeScreen() {
   const navigation = useNavigation()
@@ -15,14 +16,6 @@ export default function ValidationInputFindRecipeScreen() {
   const { uri } = route.params.data
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
-
-  // const [data, setData] = useState([
-  //   { confidence: 99.21, name: "Daging Babi", source: "aws-auto-tagging" },
-  //   { confidence: 99.21, name: "Daging Tikus", source: "aws-auto-tagging" },
-  //   { confidence: 97.97, name: "DAGING ANJING", source: "aws-auto-tagging" },
-  //   { confidence: 95.74, name: "wortel", source: "aws-auto-tagging" },
-  //   { confidence: 95.37, name: "kangkung", source: "aws-auto-tagging" },
-  // ])
 
   const addField = () => {
     setFields([...fields, { food: "", value: "" }])
@@ -38,8 +31,8 @@ export default function ValidationInputFindRecipeScreen() {
 
   const recogniseImage = async () => {
     try {
-      const token = await AsyncStorage.getItem("access_token")
       const form = new FormData()
+      const token = await AsyncStorage.getItem("access_token")
 
       form.append("ingredients", {
         uri: uri,
@@ -47,20 +40,14 @@ export default function ValidationInputFindRecipeScreen() {
         type: "image/jpg",
       })
 
-      let res = await fetch("http://192.168.43.122:3000/recipes/recognise", {
-        method: "post",
-        body: form,
+      let { data } = await axios.post("http://192.168.43.122:3000/recipes/recognise", form, {
         headers: {
           "Content-Type": "multipart/form-data",
-          // access_token: token,
+          access_token: token,
         },
       })
 
-      if (!res.ok) throw { message: "Connection error" }
-
-      const result = await res.json()
-
-      setData(result)
+      setData(data)
     } catch (error) {
       console.log("error upload", error)
     }
@@ -74,57 +61,12 @@ export default function ValidationInputFindRecipeScreen() {
   useEffect(() => {
     setLoading(true)
 
-    // recogniseImage()
-
-    setData({
-      fileId: "65142d4888c257da33a6e878",
-      name: "ingredients_ZkBP1UOsw.jpg",
-      size: 38742,
-      versionInfo: {
-        id: "65142d4888c257da33a6e878",
-        name: "Version 1",
-      },
-      filePath: "/ingredients_ZkBP1UOsw.jpg",
-      url: "https://ik.imagekit.io/nfpxx9byw/ingredients_ZkBP1UOsw.jpg",
-      fileType: "image",
-      height: 466,
-      width: 660,
-      thumbnailUrl: "https://ik.imagekit.io/nfpxx9byw/tr:n-ik_ml_thumbnail/ingredients_ZkBP1UOsw.jpg",
-      AITags: [
-        {
-          name: "Food",
-          confidence: 99.96,
-          source: "aws-auto-tagging",
-        },
-        {
-          name: "Plant",
-          confidence: 99.96,
-          source: "aws-auto-tagging",
-        },
-        {
-          name: "Produce",
-          confidence: 99.96,
-          source: "aws-auto-tagging",
-        },
-        {
-          name: "Tomato",
-          confidence: 99.96,
-          source: "aws-auto-tagging",
-        },
-        {
-          name: "Vegetable",
-          confidence: 99.96,
-          source: "aws-auto-tagging",
-        },
-      ],
-      extensionStatus: {
-        "aws-auto-tagging": "success",
-      },
-    })
-  }, [uri])
+    setTimeout(() => {
+      recogniseImage()
+    }, 3000)
+  }, [])
 
   useEffect(() => {
-    console.log(data, "🤢🤢🤢")
     if (data.AITags) {
       const objectDetection = data?.AITags?.map((x) => ({ food: x.name, value: x.name }))
       setFields(objectDetection)
@@ -186,14 +128,16 @@ export default function ValidationInputFindRecipeScreen() {
                       borderRadius: 13,
                     }}
                   />
-                  <Button
-                    title="delete"
+
+                  <Pressable
                     onPress={() => {
                       const newData = [...fields]
                       newData.splice(index, 1)
                       setFields(newData)
                     }}
-                  />
+                  >
+                    <MaterialCommunityIcons name="minus-box" size={50} color="black" />
+                  </Pressable>
                 </View>
               </View>
             ))}

@@ -22,7 +22,11 @@ export function login(username, password) {
   return async (dispatch) => {
     try {
       const { data } = await axios.post("http://192.168.43.122:3000/users/login", { username, password })
+      console.log("📌 data: ", data)
       await AsyncStorage.setItem("access_token", data.access_token)
+      await AsyncStorage.setItem("email", data.user.email)
+      await AsyncStorage.setItem("id", data.user.id)
+      await AsyncStorage.setItem("username", data.user.username)
       dispatch(isAuthenticatedAction(true))
     } catch (err) {
       console.log(err)
@@ -116,6 +120,49 @@ export function getSavedRecipes() {
       })
 
       dispatch(getSavedRecipesAction(data))
+    } catch (err) {
+      console.log(err, "📌📌📌📌")
+      alert(err)
+      throw err
+    }
+  }
+}
+
+export function addNutritions(ingredients, date) {
+  return async (dispatch) => {
+    try {
+      const token = await AsyncStorage.getItem("access_token")
+
+      const { data } = await axios({
+        url: "http://192.168.43.122:3000/nutritions",
+        method: "POST",
+        headers: { access_token: token },
+        data: { input: ingredients, date },
+      })
+
+      console.log(data)
+    } catch (err) {
+      console.log(err, "📌📌📌📌")
+      alert(err)
+      throw err
+    }
+  }
+}
+
+export function saveRecipes(recipes) {
+  return async (dispatch) => {
+    try {
+      const token = await AsyncStorage.getItem("access_token")
+
+      const { data } = await axios({
+        url: "http://192.168.43.122:3000/recipes",
+        method: "POST",
+        headers: { access_token: token },
+        data: { recipes  },
+      })
+
+      console.log(data)
+      dispatch(getSavedRecipes())
     } catch (err) {
       console.log(err, "📌📌📌📌")
       alert(err)

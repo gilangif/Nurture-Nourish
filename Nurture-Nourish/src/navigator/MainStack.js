@@ -27,7 +27,7 @@ import { useSelector } from "react-redux"
 export default function MainStack() {
   const Stack = createNativeStackNavigator()
 
-  const { isAuthenticated } = useSelector((state) => state)
+  const isAuthenticated = useSelector((state) => state.isAuthenticated)
 
   useEffect(() => {
     console.log(isAuthenticated)

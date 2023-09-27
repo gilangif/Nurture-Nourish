@@ -4,7 +4,7 @@ import { FontAwesome5, MaterialIcons, Entypo, FontAwesome } from "@expo/vector-i
 import { useEffect, useState } from "react"
 import NutritionDailyCard from "../components/NutritionDailyCard"
 import BottomComponent from "../components/BottomComponent"
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation, useRoute } from "@react-navigation/native"
 import { useDispatch, useSelector } from "react-redux"
 import { getDaily } from "../stores/actionCreator"
 import Loading from "../components/Loading"
@@ -13,13 +13,15 @@ export default function NutritionScreen() {
   const [modalVisible, setModalVisible] = useState(false)
   const [loading, setLoading] = useState(true)
   const navigation = useNavigation()
+  const route = useRoute()
   const dipatch = useDispatch()
   const daily = useSelector((state) => state.daily)
+  const status = route.params?.status
 
   useEffect(() => {
     setLoading(true)
     dipatch(getDaily()).then(() => setLoading(false))
-  }, [])
+  }, [status])
 
   if (loading) {
     return <Loading />

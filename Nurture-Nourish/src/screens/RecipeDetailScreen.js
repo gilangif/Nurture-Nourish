@@ -1,17 +1,31 @@
-import { Button, Image, Linking, Modal, Pressable, ScrollView, Text, TouchableWithoutFeedback, View } from "react-native"
+import { Alert, Button, Image, Linking, Modal, Pressable, ScrollView, Text, TouchableWithoutFeedback, View } from "react-native"
 import HeaderComponent from "../components/HeaderComponent"
 import { FontAwesome5, Feather, Entypo, FontAwesome } from "@expo/vector-icons"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import BottomComponent from "../components/BottomComponent"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { saveRecipes } from "../stores/actionCreator"
+
 
 export default function RecipeDetailScreen() {
   const navigation = useNavigation()
   const route = useRoute()
+  const dispatch = useDispatch()
+  let { recipe, status } = route.params
+  const [show, setShow] = useState()
 
-  const { recipe, status } = route.params
+  const handleSaveRecipes = () => {
+    dispatch(saveRecipes([recipe])).then(() => {
+      Alert.alert("Saved", `Recipe ${recipe.title} saved to bookmark.`, [{ text: "OK", onPress: () => console.log("Tombol OK ditekan") }], {
+        cancelable: false,
+      })
+      setShow("saved")
+    })
+  }
+
   useEffect(() => {
-    console.log(route)
+    setShow(status)
   }, [])
 
   return (
@@ -25,25 +39,63 @@ export default function RecipeDetailScreen() {
         centerContent={<Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 20 }}>Resep Makanan</Text>}
         rightContent={
           <>
-          {  status && status === "unsave" ?  (<Feather name="bookmark" size={28} color="black" />) : ""
-           }
+            {show === "unsave" ? (
+              <Pressable onPress={() => handleSaveRecipes()}>
+                <Feather name="bookmark" size={28} color="black" />
+              </Pressable>
+            ) : (
+              ""
+            )}
             <FontAwesome5 name="user-circle" size={28} color="black" />
           </>
         }
       />
       <ScrollView style={{ paddingHorizontal: 25 }}>
         <View style={{ marginTop: 10 }}>
-          <View>
-            <Image
-              resizeMode="cover"
-              style={{ width: "100%", height: 200, borderRadius: 20 }}
-              source={{
-                uri: recipe.thumb,
+          <Pressable onPress={() => Linking.openURL(recipe.youtube)} style={{ marginBottom: 4 }}>
+            <View
+              style={{
+                borderRadius: 15,
+                borderWidth: 1,
+                height: 230,
+                width: "100%",
+                borderColor: "rgb(226 232 240)",
+                overflow: "hidden",
+                position: "relative",
               }}
-            />
-          </View>
+            >
+              <Image
+                resizeMode="cover"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                }}
+                source={{ uri: recipe?.thumb }}
+              />
+              <Text
+                numberOfLines={1}
+                style={{
+                  fontFamily: "Poppins-Medium",
+                  fontSize: 14,
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  color: "white",
+                  backgroundColor: "rgba(0, 0, 0, 0.6)",
+                  paddingHorizontal: 8,
+                  paddingVertical: 3,
+                  borderRadius: 5,
+                }}
+              >
+                Youtube
+              </Text>
+            </View>
+          </Pressable>
           <View>
-            <Button onPress={() => Linking.openURL(recipe.youtube)} title="Youtube" />
             <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 20, marginTop: 20 }}>{recipe?.title}</Text>
             <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 17, marginTop: 10 }}>Deskripsi:</Text>
             <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, textAlign: "justify" }}>{recipe?.description}</Text>

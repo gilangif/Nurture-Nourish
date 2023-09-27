@@ -72,6 +72,7 @@ class UserController
               const access_token = generateToken({ id: user["_id"] })
               res.status(200).json({
                 access_token: access_token,
+                user: { username, email: user.email, id: user.id },
                 message: "Successfully logged in",
               })
             } else {
