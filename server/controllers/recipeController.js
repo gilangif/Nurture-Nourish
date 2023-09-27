@@ -16,8 +16,8 @@ class RecipeController {
         const recipe = new Recipe(x)
         await recipe.save()
         userProfile.favoriteRecipes.push(recipe._id)
+        await userProfile.save()
       })
-      await userProfile.save()
       res.status(201).json({
         message: "Recipe added successfully",
       })
