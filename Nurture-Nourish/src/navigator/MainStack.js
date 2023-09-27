@@ -83,7 +83,6 @@ export default function MainStack() {
           name="RecipeRecommendation"
           component={RecipeRecommendationScreen}
         />
-        <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
         <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }} />
         <Stack.Screen options={{ headerShown: false }} name="FoodCategory" component={FoodCategoryScreen} />
         <Stack.Screen options={{ headerShown: false }} name="NutritionList" component={NutritionScreen} />
