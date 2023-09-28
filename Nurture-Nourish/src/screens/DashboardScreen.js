@@ -7,11 +7,30 @@ import RecipeCard from "../components/RecipeCard"
 import ArticleCard from "../components/ArticleCard"
 import BottomComponent from "../components/BottomComponent"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import DateTimePickerModal from "react-native-modal-datetime-picker"
+
+import news from "../data/news.json"
+import recipes from "../data/recipes.json"
 
 export default function DashboardScreen() {
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
   const [user, setUser] = useState("")
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
+  const [date, setDate] = useState()
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true)
+  }
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false)
+  }
+
+  const handleConfirm = (date) => {
+    setDate(date)
+    hideDatePicker()
+  }
 
   useEffect(() => {
     const getUser = async () => {
@@ -133,95 +152,109 @@ export default function DashboardScreen() {
         <View style={{ marginTop: 20 }}>
           <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 16, marginBottom: -4 }}>Artikel Kehamilan</Text>
           <ScrollView horizontal style={{ marginTop: 10 }} showsHorizontalScrollIndicator={false}>
-            <ArticleCard />
-            <ArticleCard />
-            <ArticleCard />
+            {news.map((x, i) => (
+              <ArticleCard data={x} key={i} />
+            ))}
           </ScrollView>
         </View>
 
-        <View>
-          <Pressable
-            onPress={() => setModalVisible(true)}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              backgroundColor: "white",
-              padding: 20,
-              borderRadius: 20,
-              marginTop: 20,
-              borderWidth: 2,
-              borderColor: "rgb(203 213 225)",
-            }}
-          >
-            <View style={{ width: 60, marginTop: -10, marginBottom: -13 }}>
-              <Image resizeMode="contain" style={{ width: "100%", height: undefined, aspectRatio: 1 }} source={require("../images/pregnancy.png")} />
-            </View>
-            <View style={{ flex: 1, marginLeft: 20 }}>
-              <Text style={{ fontFamily: "Poppins-Medium", fontSize: 15 }}>Sudah tahu kapan Hari Perkiraan Lahir anda?</Text>
-            </View>
-          </Pressable>
-        </View>
-
-        <View style={{ marginTop: 10 }}>
-          <View
-            style={{
-              backgroundColor: "white",
-              padding: 20,
-              borderRadius: 20,
-              borderWidth: 2,
-              borderColor: "rgb(203 213 225)",
-            }}
-          >
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <View style={{ height: "100%", width: 5, backgroundColor: "gray", borderRadius: 10 }} />
-              <Text
-                style={{
-                  fontFamily: "Poppins-SemiBold",
-                  fontSize: 16,
-                  marginLeft: 5,
-                  marginTop: 1,
-                  flex: 1,
-                }}
-              >
-                241 Hari Lagi Menuju Kelahiran Si Kecil
-              </Text>
-            </View>
-            <View style={{ flexDirection: "row", marginTop: 20, marginHorizontal: 3, alignItems: "center", justifyContent: "space-between" }}>
-              <View>
-                <Image style={{ width: 35, height: undefined, aspectRatio: 1 }} source={require("../images/fetus.png")} />
+        {!date ? (
+          <View>
+            <Pressable
+              onPress={showDatePicker}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                backgroundColor: "white",
+                padding: 20,
+                borderRadius: 20,
+                marginTop: 20,
+                borderWidth: 2,
+                borderColor: "rgb(203 213 225)",
+              }}
+            >
+              <View style={{ width: 60, marginTop: -10, marginBottom: -13 }}>
+                <Image
+                  resizeMode="contain"
+                  style={{ width: "100%", height: undefined, aspectRatio: 1 }}
+                  source={require("../images/pregnancy.png")}
+                />
               </View>
-              <View style={{ flex: 1, marginHorizontal: 10 }}>
-                <View style={{ height: 10, borderRadius: 10, width: "100%", backgroundColor: "rgb(203 213 225)", overflow: "hidden" }}>
-                  <View style={{ height: 10, borderRadius: 10, width: "50%", backgroundColor: "green" }} />
+              <View style={{ flex: 1, marginLeft: 20 }}>
+                <Text style={{ fontFamily: "Poppins-Medium", fontSize: 15 }}>Sudah tahu kapan Hari Perkiraan Lahir anda?</Text>
+              </View>
+            </Pressable>
+
+            <DateTimePickerModal isVisible={isDatePickerVisible} mode="date" onConfirm={handleConfirm} onCancel={hideDatePicker} />
+          </View>
+        ) : (
+          ""
+        )}
+
+        {date ? (
+          <View style={{ marginTop: 10 }}>
+            <View
+              style={{
+                backgroundColor: "white",
+                padding: 20,
+                borderRadius: 20,
+                borderWidth: 2,
+                borderColor: "rgb(203 213 225)",
+              }}
+            >
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={{ height: "100%", width: 5, backgroundColor: "gray", borderRadius: 10 }} />
+                <Text
+                  style={{
+                    fontFamily: "Poppins-SemiBold",
+                    fontSize: 16,
+                    marginLeft: 5,
+                    marginTop: 1,
+                    flex: 1,
+                  }}
+                >
+                  241 Hari Lagi Menuju Kelahiran Si Kecil
+                </Text>
+              </View>
+              <View style={{ flexDirection: "row", marginTop: 20, marginHorizontal: 3, alignItems: "center", justifyContent: "space-between" }}>
+                <View>
+                  <Image style={{ width: 35, height: undefined, aspectRatio: 1 }} source={require("../images/fetus.png")} />
+                </View>
+                <View style={{ flex: 1, marginHorizontal: 10 }}>
+                  <View style={{ height: 10, borderRadius: 10, width: "100%", backgroundColor: "rgb(203 213 225)", overflow: "hidden" }}>
+                    <View style={{ height: 10, borderRadius: 10, width: "5%", backgroundColor: "green" }} />
+                  </View>
+                </View>
+                <View>
+                  <Image style={{ width: 33, height: undefined, aspectRatio: 1 }} source={require("../images/baby.png")} />
                 </View>
               </View>
-              <View>
-                <Image style={{ width: 33, height: undefined, aspectRatio: 1 }} source={require("../images/baby.png")} />
+              <View style={{ flexDirection: "row", marginTop: 20, marginHorizontal: 3 }}>
+                <Text
+                  style={{
+                    fontFamily: "Poppins-SemiBold",
+                    fontSize: 16,
+                    marginTop: -20,
+                    flex: 1,
+                    textAlign: "center",
+                  }}
+                >
+                  Trimester 1
+                </Text>
               </View>
             </View>
-            <View style={{ flexDirection: "row", marginTop: 20, marginHorizontal: 3 }}>
-              <Text
-                style={{
-                  fontFamily: "Poppins-SemiBold",
-                  fontSize: 16,
-                  marginTop: -20,
-                  flex: 1,
-                  textAlign: "center",
-                }}
-              >
-                Trimester 1
-              </Text>
-            </View>
           </View>
-        </View>
+        ) : (
+          ""
+        )}
 
         {/* Rekomendasi Resep (sesuai timester) */}
         <View style={{ marginTop: 20 }}>
           <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 16, marginBottom: -4 }}>Resep Makanan (Trimester 1)</Text>
           <ScrollView horizontal style={{ marginTop: 10 }} showsHorizontalScrollIndicator={false}>
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
+            {recipes.map((x, i) => (
+              <RecipeCard key={i} data={x} />
+            ))}
           </ScrollView>
         </View>
 

@@ -5,10 +5,12 @@ import { Feather, FontAwesome5 } from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useEffect, useState } from "react"
-
+import Loading from "../components/Loading"
 
 export default function Chat() {
   const navigation = useNavigation()
+  const [loading, setLoading] = useState(true)
+
   const [me, setMe] = useState({
     id: "123456",
     name: "Rama",
@@ -28,6 +30,7 @@ export default function Chat() {
   }
 
   useEffect(() => {
+    setLoading(true)
     const fetchUser = async () => {
       const id = await AsyncStorage.getItem("id")
       const email = await AsyncStorage.getItem("email")
@@ -40,39 +43,44 @@ export default function Chat() {
       }))
     }
     fetchUser()
+    setLoading(false)
   }, [])
 
   const conversationBuilder = TalkRn.getConversationBuilder(TalkRn.oneOnOneId(me, other))
   conversationBuilder.setParticipant(me)
   conversationBuilder.setParticipant(other)
 
-  return (
-    <View style={styles.container}>
-      <HeaderComponent
-        leftContent={
-          <Pressable onPress={() => navigation.goBack()}>
-            <Feather name="arrow-left-circle" size={30} color="black" />
-          </Pressable>
-        }
-        centerContent={<Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 20 }}>Chat Counselor</Text>}
-        rightContent={
-          <Pressable
-            onPress={() => {
-              navigation.navigate("ProfileDetail")
-              console.log("clicked")
-            }}
-          >
-            <FontAwesome5 name="user-circle" size={28} color="black" />
-          </Pressable>
-        }
-      />
-      <TalkRn.Session appId="t0qA0gWk" me={me}>
-        <TalkRn.Chatbox conversationBuilder={conversationBuilder} />
-      </TalkRn.Session>
-      {/* Margin Bottom */}
-      {/* <View style={{ height: 35 }} /> */}
-    </View>
-  )
+  if (loading) {
+    return <Loading />
+  } else {
+    return (
+      <View style={styles.container}>
+        <HeaderComponent
+          leftContent={
+            <Pressable onPress={() => navigation.goBack()}>
+              <Feather name="arrow-left-circle" size={30} color="black" />
+            </Pressable>
+          }
+          centerContent={<Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 20 }}>Chat Counselor</Text>}
+          rightContent={
+            <Pressable
+              onPress={() => {
+                navigation.navigate("ProfileDetail")
+                console.log("clicked")
+              }}
+            >
+              <FontAwesome5 name="user-circle" size={28} color="black" />
+            </Pressable>
+          }
+        />
+        <TalkRn.Session appId="t0qA0gWk" me={me}>
+          <TalkRn.Chatbox conversationBuilder={conversationBuilder} />
+        </TalkRn.Session>
+        {/* Margin Bottom */}
+        {/* <View style={{ height: 35 }} /> */}
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({

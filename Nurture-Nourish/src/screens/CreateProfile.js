@@ -5,6 +5,7 @@ import { Picker } from "@react-native-picker/picker"
 import { useDispatch } from "react-redux"
 
 import DateTimePickerModal from "react-native-modal-datetime-picker"
+
 import { register } from "../stores/actionCreator"
 
 export default function CreateProfileScreen({ navigation, route }) {
@@ -25,7 +26,6 @@ export default function CreateProfileScreen({ navigation, route }) {
   }
 
   const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date)
     setDate(date)
     hideDatePicker()
   }

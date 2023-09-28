@@ -98,7 +98,7 @@ export default function ProfileScreen() {
           <View style={{ marginTop: 20 }}>
             <Pressable
               onPress={() => {
-                navigation.navigate("NutritionDetail")
+                navigation.navigate("NutritionDetail", { data: daily[daily.length - 1] })
                 console.log("clicked")
               }}
               style={{

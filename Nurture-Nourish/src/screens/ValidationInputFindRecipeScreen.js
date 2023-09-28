@@ -145,9 +145,9 @@ export default function ValidationInputFindRecipeScreen() {
               <Pressable style={{ flex: 1, padding: 10, marginRight: 5, backgroundColor: "black", borderRadius: 12 }} onPress={() => handleSubmit()}>
                 <Text style={{ textAlign: "center", fontFamily: "Poppins-SemiBold", color: "white", marginBottom: -3, fontSize: 16 }}>Submit</Text>
               </Pressable>
-              <Pressable onPress={removeField}>
+              {/* <Pressable onPress={removeField}>
                 <MaterialCommunityIcons name="minus-box" size={50} color="black" />
-              </Pressable>
+              </Pressable> */}
               <Pressable onPress={addField}>
                 <MaterialCommunityIcons name="plus-box" size={50} color="black" />
               </Pressable>
