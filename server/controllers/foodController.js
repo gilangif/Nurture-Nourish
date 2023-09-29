@@ -8,16 +8,25 @@ const axios = require("axios")
 const credentials = require("../application_default_credentials.json")
 const client = new vision.ImageAnnotatorClient()
 
-class FoodController {
-  static async getFoods(req, res) {
-    const { key } = req.query
-    try {
+class FoodController
+{
+  static async getFoods(req, res)
+  {
+    try
+    {
       let params = {}
-
-      if (key) params = { key }
-
+      const { key } = req.query
+      if (key)
+      {
+        params = { key };
+      }
+      else
+      {
+        params = {}
+      }
       res.status(200).json(await Food.find(params))
-    } catch (error) {
+    } catch (error)
+    {
       console.log(error)
       res.status(500).json({
         message: "Internal Server Error",

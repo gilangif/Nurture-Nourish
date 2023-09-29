@@ -38,8 +38,13 @@ class UserController
       }
       else if (error.name === "MongoServerError")
       {
+        console.log("MONGO SERVER ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
         error.message = "Duplicate key error"
         code = 400
+      }
+      else
+      {
+        error.message = "Internal Server Error";
       }
       res.status(code).json({
         message: error.message
@@ -56,11 +61,16 @@ class UserController
 
       if (username)
       {
+        console.log("USEEEEEEEERNAMEEEEEEEEEEEEEEEEEEEEEEEE")
         user = await User.findOne({ username: username })
         if (!user)
         {
           user = await User.findOne({ email: username })
         }
+      }
+      else
+      {
+        throw new Error("Invalid credentials, please try again")
       }
       if (!user) {
         throw new Error("Invalid credentials, please try again")

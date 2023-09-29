@@ -13,7 +13,7 @@ class PregnancyController {
       }
       const pregData = new PregnancyData({
         startDate: startDate,
-        childrenNumber: userProfile.pregnancyData.length + 1 || 1,
+        childrenNumber: userProfile.pregnancyData.length + 1,
         dailyNutrition: [],
       })
       await pregData.save()

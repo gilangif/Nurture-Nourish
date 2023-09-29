@@ -2,7 +2,7 @@
 const DailyNutrition = require("../models/DailyNutrition")
 const Profile = require("../models/Profile")
 const PregnancyData = require("../models/Pregnancy")
-const { openAI } = require("../helpers/OpenAI")
+const openAI = require("../helpers/OpenAI")
 
 class NutritionController
 {
@@ -17,33 +17,27 @@ class NutritionController
       for (let i = 0; i < pregData.dailyNutrition.length; i++)
       {
         const nutrition = await DailyNutrition.findById(pregData.dailyNutrition[i]);
-        data.push(nutrition);
+        if (nutrition)
+        {
+          data.push(nutrition);
+        }
+        else
+        {
+          throw { message: "Nutrition not found", status: 404 };
+        }
       }
       res.status(200).json(data)
     } catch (error)
     {
       console.log(error)
-      res.status(500).json({ message: error.message })
+      res.status(404).json({ message: "Nutrition not found" })
     }
   }
 
-  static async getNutritionByProfileId(req, res, next)
+  static async addNutrition(req, res, next)
   {
     try
     {
-      const { ProfileId } = req.params
-      const data = await Nutrition.find({ ProfileId })
-
-      res.status(200).json(data)
-    } catch (error)
-    {
-      console.log(error)
-      res.status(500).json({ message: error.message })
-    }
-  }
-
-  static async addNutrition(req, res, next) {
-    try {
       const { date, input } = req.body
       const user = req.user
       const userProfile = await Profile.findById(user.profile)
@@ -91,7 +85,7 @@ class NutritionController
         conclusion : string
       }`
 
-      const openai = await openAI(query)
+      const openai = await openAI.query(query)
       const details = JSON.parse(openai[0]?.message?.content)
 
       for (let x in details)
@@ -119,7 +113,8 @@ class NutritionController
       await pregData.save()
 
       res.status(201).json({ message: "OK", nutrition })
-    } catch (error) {
+    } catch (error)
+    {
       res.status(500).json({
         message: error.message,
       })
@@ -130,6 +125,8 @@ class NutritionController
     try
     {
       const { id } = req.params
+      const user = req.user;
+      const userProfile = await Profile.findById(user.profile);
       const pregData = await PregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1])
       const index = pregData.dailyNutrition.indexOf(id)
       pregData.dailyNutrition.splice(index, 1)
@@ -140,8 +137,7 @@ class NutritionController
       })
     } catch (error)
     {
-      console.log(error)
-      res.status(500).json({ message: error.message })
+      res.status(404).json({ message: error.message })
     }
   }
 }
