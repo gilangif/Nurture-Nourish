@@ -1,10 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Linking, Pressable, Text, View } from "react-native";
 
-export default function RecipeCard() {
+export default function RecipeCard({ data }) {
     const navigation = useNavigation()
     return (
-        <Pressable onPress={() => navigation.navigate('RecipeDetail')} style={{ width: 250, paddingBottom: 5, marginRight: 10 }}>
+        <Pressable onPress={() => Linking.openURL(data.link) } style={{ width: 250, paddingBottom: 5, marginRight: 10 }}>
             <View style={{
                 borderRadius: 15,
                 borderWidth: 1,
@@ -21,7 +21,7 @@ export default function RecipeCard() {
                     position: 'absolute',
                     top: 0,
                     left: 0
-                }} source={{ uri: "https://www.marthastewart.com/thmb/9SwNGFbxZv2ttLQ3uvZe_McJChk=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/easy-basic-pancakes-horiz-1022_0-f13ba897aba6423db7901ca826595244.jpgitokXQMZkp_j" }} />
+                }} source={{ uri: data.thumb }} />
                 <Text numberOfLines={1} style={{
                     fontFamily: "Poppins-Medium",
                     fontSize: 14,
@@ -35,7 +35,7 @@ export default function RecipeCard() {
                     paddingVertical: 3,
                     borderRadius: 5
                 }}>
-                    Easy basic pancake
+                   { data.title }
                 </Text>
             </View>
         </Pressable>

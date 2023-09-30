@@ -1,6 +1,6 @@
 import { Image, Text, View } from 'react-native';
 
-export default function NutritionSubDetail({ name, percentage, color, imgUrl }) {
+export default function NutritionSubDetail({ name, percentage, value, color, imgUrl }) {
     return (
         <View style={{ flexDirection: "row", gap: 10 }}>
             <View style={{ borderWidth: 1, padding: 5, borderRadius: 10, borderColor: "rgb(203 213 225)" }}>
@@ -12,7 +12,7 @@ export default function NutritionSubDetail({ name, percentage, color, imgUrl }) 
                         {name}
                     </Text>
                     <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 15 }}>
-                        {percentage}
+                        {value}
                     </Text>
                 </View>
                 <View style={{ width: '100%', height: 6, borderRadius: 15, backgroundColor: 'rgb(226 232 240)', justifyContent: "flex-end" }}>

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react"
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native"
+import { StyleSheet, Text, View, TouchableOpacity, Pressable, Dimensions } from "react-native"
 import { Camera } from "expo-camera"
-import axios from "axios"
-import * as FileSystem from "expo-file-system"
-import { Buffer } from "@craftzdog/react-native-buffer"
+import HeaderComponent from "../components/HeaderComponent"
+import { Feather, FontAwesome5 } from "@expo/vector-icons"
 
-import FormData from "form-data"
+const { width: winWidth, height: winHeight } = Dimensions.get("window")
 
 export default function CameraComp({ navigation }) {
   const [hasCameraPermission, setHasCameraPermission] = useState(null)
@@ -24,9 +23,7 @@ export default function CameraComp({ navigation }) {
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync(null)
-      console.log("📌 data: ", data)
-
-      navigation.navigate("Preview", { data })
+      navigation.navigate("ValidationInputFindRecipe", { data })
     }
   }
 
@@ -36,14 +33,32 @@ export default function CameraComp({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Camera ref={(ref) => setCamera(ref)} style={styles.fixedRatio} type={type} ratio={"4:3"} />
+      <HeaderComponent
+        leftContent={
+          <Pressable onPress={() => navigation.goBack()}>
+            <Feather name="arrow-left-circle" size={30} color="black" />
+          </Pressable>
+        }
+        centerContent={<Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 20 }}>Camera</Text>}
+        rightContent={
+          <Pressable
+            onPress={() => {
+              navigation.navigate("ProfileDetail")
+              console.log("clicked")
+            }}
+          >
+            <FontAwesome5 name="user-circle" size={28} color="black" />
+          </Pressable>
+        }
+      />
+      <Camera ref={(ref) => setCamera(ref)} style={styles.fixedRatio} type={type} />
       <View style={styles.shotBox}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.reverseBtn}
           onPress={() => setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back)}
-        />
+        /> */}
         <TouchableOpacity style={styles.shotBtn} onPress={() => takePicture()} />
-        <TouchableOpacity style={styles.galleryBtn} />
+        {/* <TouchableOpacity style={styles.galleryBtn} /> */}
       </View>
     </View>
   )
@@ -52,11 +67,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
+    backgroundColor: "white",
   },
 
   fixedRatio: {
     flex: 4,
-    aspectRatio: 4 / 3,
+    aspectRatio: 1 / 1.25,
+    // width: winWidth,
+    height: winHeight,
   },
 
   shotBox: {

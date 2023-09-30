@@ -1,13 +1,18 @@
 const User = require("../models/User")
 const Profile = require("../models/Profile")
 
-class ProfileController {
-  static async getProfile(req, res, next) {
-    try {
+class ProfileController
+{
+  static async getProfile(req, res, next)
+  {
+    try
+    {
       const user = req.user
-      console.log(await Profile.find())
-      res.status(200).json(user.profile)
-    } catch (err) {
+      const userProfile = await Profile.findById(user.profile)
+      console.log(user)
+      res.status(200).json(userProfile)
+    } catch (err)
+    {
       console.log(err)
       res.status(500).json({
         message: "Internal Server Error",
@@ -15,25 +20,31 @@ class ProfileController {
     }
   }
 
-  static async updateProfile(req, res, next) {
-    try {
+  static async updateProfile(req, res, next)
+  {
+    try
+    {
       const { name, gender, date } = req.body
       let user = req.user
-      if (name) {
-        user.profile.name = name
+      console.log(user, "DARI PROFILE CONTROLLERRR <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+      const userProfile = await Profile.findById(user.profile)
+      if (!name || !gender || !date)
+      {
+        throw { message: "Invalid data format", status: 400 }
       }
-      if (gender) {
-        user.profile.gender = gender
-      }
-      if (date) {
-        user.profile.birthDate = date
-      }
+      userProfile.name = name
+      userProfile.gender = gender
+      userProfile.date = date
       user = await user.save()
-      res.status(200).json(user)
-    } catch (error) {
+      await userProfile.save()
+      res.status(200).json({
+        message: "Profile updated successfully"
+      })
+    } catch (error)
+    {
       console.log(error)
-      res.status(500).json({
-        message: "Internal Server Error",
+      res.status(error.status).json({
+        message: error.message,
       })
     }
   }

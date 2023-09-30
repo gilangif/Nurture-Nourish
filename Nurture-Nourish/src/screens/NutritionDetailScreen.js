@@ -6,6 +6,12 @@ import { useNavigation, useRoute } from "@react-navigation/native"
 import NutritionSubDetail from "../components/NutritionSubDetail"
 import BottomComponent from "../components/BottomComponent"
 
+function formatDate(dateString) {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', options);
+}
+
 export default function NutritionDetailScreen() {
   const navigation = useNavigation()
   const route = useRoute()
@@ -69,7 +75,7 @@ export default function NutritionDetailScreen() {
               </View>
               <View style={{ flex: 1 }}>
                 <Text numberOfLines={1} style={{ fontFamily: "Poppins-SemiBold", fontSize: 12, marginBottom: -5 }}>
-                  17 Agustus 2023
+                  { formatDate(route.params.data.date)}
                 </Text>
                 <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 15 }}>{route.params.data.input}</Text>
               </View>
@@ -84,87 +90,106 @@ export default function NutritionDetailScreen() {
             >
               <NutritionSubDetail
                 name={"Protein"}
-                percentage={Protein_g.value + "%"}
+                percentage={Protein_g.value > 100 ? "100%" : Protein_g.value + "%"}
+                value={ Protein_g.value + "%" }
                 color={"rgb(239 68 68)"}
                 imgUrl={require("../images/protein.png")}
               />
               <NutritionSubDetail
                 name={"Karbohidrat"}
-                percentage={Karbohidrat_g.value + "%"}
+                percentage={Karbohidrat_g.value > 100 ? "100%" : Karbohidrat_g.value + "%"}
+                value={ Karbohidrat_g.value + "%" }
                 color={"rgb(239 168 68)"}
                 imgUrl={require("../images/protein.png")}
               />
               <NutritionSubDetail
                 name={"Serat"}
-                percentage={Serat_g.value + "%"}
+                percentage={Serat_g.value > 100 ? "100%" : Serat_g.value + "%"}
+                value={ Serat_g.value + "%" }
                 color={"rgb(239 168 68)"}
                 imgUrl={require("../images/protein.png")}
               />
               <NutritionSubDetail
                 name={"Lemak"}
-                percentage={Lemak_Total.value + "%"}
+                percentage={Lemak_Total.value > 100 ? "100%" : Lemak_Total.value + "%"}
+                value={ Lemak_Total.value + "%" }
                 color={"rgb(239 168 68)"}
                 imgUrl={require("../images/protein.png")}
               />
               <NutritionSubDetail
                 name={"Omega 3"}
-                percentage={Omega_3.value + "%"}
+                percentage={Omega_3.value > 100 ? "100%" : Omega_3.value + "%"}
+                value={ Omega_3.value + "%" }
                 color={"rgb(239 168 68)"}
                 imgUrl={require("../images/protein.png")}
               />
               <NutritionSubDetail
                 name={"Omega 6"}
-                percentage={Omega_6.value + "%"}
+                percentage={Omega_6.value > 100 ? "100%" : Omega_6.value + "%"}
+                value={ Omega_6.value + "%" }
                 color={"rgb(239 168 68)"}
                 imgUrl={require("../images/protein.png")}
               />
               <NutritionSubDetail
                 name={"Mineral"}
-                percentage={Air_ml.value + "%"}
+                percentage={Air_ml.value > 100 ? "100%" : Air_ml.value + "%"}
+                value={ Air_ml.value + "%" }
                 color={"rgb(239 168 68)"}
                 imgUrl={require("../images/protein.png")}
               />
               <NutritionSubDetail
                 name={"Vitamin A"}
-                percentage={Vitamin_A_re.value + "%"}
+                percentage={Vitamin_A_re.value > 100 ? "100%" : Vitamin_A_re.value + "%"}
+                value={ Vitamin_A_re.value + "%" }
                 color={"rgb(239 168 68)"}
                 imgUrl={require("../images/protein.png")}
               />
               <NutritionSubDetail
                 name={"Vitamin C"}
-                percentage={Vitamin_C_mcg.value + "%"}
+                percentage={Vitamin_C_mcg.value > 100 ? "100%" : Vitamin_C_mcg.value + "%"}
+                value={ Vitamin_C_mcg.value + "%" }
                 color={"rgb(239 168 68)"}
                 imgUrl={require("../images/protein.png")}
               />
-              <NutritionSubDetail name={"Folat"} percentage={Folat.value + "%"} color={"rgb(239 168 68)"} imgUrl={require("../images/protein.png")} />
-              <NutritionSubDetail name={"Kolin"} percentage={Kolin.value + "%"} color={"rgb(239 168 68)"} imgUrl={require("../images/protein.png")} />
+              <NutritionSubDetail
+                name={"Folat"}
+                percentage={Folat.value > 100 ? "100%" : Folat.value + "%"}
+                value={ Folat.value + "%" }
+                color={"rgb(239 168 68)"}
+                imgUrl={require("../images/protein.png")}
+              />
+              <NutritionSubDetail
+                name={"Kolin"}
+                percentage={Kolin.value > 100 ? "100%" : Kolin.value + "%"}
+                value={ Kolin.value + "%" }
+                color={"rgb(239 168 68)"}
+                imgUrl={require("../images/protein.png")}
+              />
               <NutritionSubDetail
                 name={"Vitamin B1"}
-                percentage={Vitamin_B1.value + "%"}
+                percentage={Vitamin_B1.value > 100 ? "100%" : Vitamin_B1.value + "%"}
+                value={ Vitamin_B1.value + "%" }
                 color={"rgb(239 168 68)"}
                 imgUrl={require("../images/protein.png")}
               />
               <NutritionSubDetail
                 name={"Vitamin B3"}
-                percentage={Vitamin_B3.value + "%"}
+                percentage={Vitamin_B3.value > 100 ? "100%" : Vitamin_B3.value + "%"}
+                value={ Vitamin_B3.value + "%" }
                 color={"rgb(239 168 68)"}
                 imgUrl={require("../images/protein.png")}
               />
               <NutritionSubDetail
                 name={"Vitamin B5"}
-                percentage={Vitamin_B5.value + "%"}
+                percentage={Vitamin_B5.value > 100 ? "100%" : Vitamin_B5.value + "%"}
+                value={ Vitamin_B5.value + "%" }
                 color={"rgb(239 168 68)"}
                 imgUrl={require("../images/protein.png")}
               />
               <NutritionSubDetail
                 name={"Vitamin B6"}
-                percentage={Vitamin_B6.value + "%"}
-                color={"rgb(239 168 68)"}
-                imgUrl={require("../images/protein.png")}
-              />
-              <NutritionSubDetail
-                name={"Vitamin B1"}
-                percentage={Vitamin_B1.value + "%"}
+                percentage={Vitamin_B6.value > 100 ? "100%" : Vitamin_B6.value + "%"}
+                value={ Vitamin_B6.value + "%" }
                 color={"rgb(239 168 68)"}
                 imgUrl={require("../images/protein.png")}
               />

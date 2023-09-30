@@ -16,8 +16,8 @@ class RecipeController {
         const recipe = new Recipe(x)
         await recipe.save()
         userProfile.favoriteRecipes.push(recipe._id)
+        await userProfile.save()
       })
-      await userProfile.save()
       res.status(201).json({
         message: "Recipe added successfully",
       })
@@ -66,6 +66,7 @@ class RecipeController {
         extensions: [{ name: "aws-auto-tagging", maxTags: 5, minConfidence: 95 }],
       })
 
+      console.log(data, "OKKKK")
       res.status(200).json(data)
     } catch (err) {
       console.log(err)
@@ -143,10 +144,12 @@ class RecipeController {
           x.inputIngredients = ingredients
           x.thumb = thumb[0].image
           x.youtube = youtube[0].link
+          x.youtubeThumb = youtube[0].thumbnail
           return x
         })
       )
 
+      console.log(results)
       res.status(200).json(results)
     } catch (err) {
       console.log(err.response)

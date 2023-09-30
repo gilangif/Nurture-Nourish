@@ -2,6 +2,14 @@ import { Pressable, Text, ToastAndroid, View } from "react-native"
 import { FontAwesome5, MaterialIcons, Entypo, FontAwesome } from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
 
+function formatDate(dateString) {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', options);
+}
+
+
+
 export default function NutritionDailyCard({ data }) {
   const { Protein_g, Karbohidrat_g, Serat_g, Lemak_Total } = data.details
   const navigation = useNavigation()
@@ -28,7 +36,7 @@ export default function NutritionDailyCard({ data }) {
         </View>
         <View style={{ flex: 1 }}>
           <Text numberOfLines={1} style={{ fontFamily: "Poppins-SemiBold", fontSize: 12, marginBottom: -5 }}>
-            17 Agustus 2023
+           { formatDate(data.date) }
           </Text>
           <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 15 }}>{data.input.toLowerCase()}</Text>
         </View>
@@ -56,7 +64,7 @@ export default function NutritionDailyCard({ data }) {
               style={{
                 backgroundColor: "rgb(139 92 246)",
                 width: "100%",
-                height: Karbohidrat_g.percentage > 100 ? "100%" : Protein_g.percentage + "%",
+                height: Karbohidrat_g.percentage > 100 ? "100%" : Karbohidrat_g.percentage + "%",
                 borderRadius: 10,
               }}
             />

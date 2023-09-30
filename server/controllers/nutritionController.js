@@ -1,33 +1,42 @@
-const { openAI } = require("../helpers/OpenAI")
+
 const DailyNutrition = require("../models/DailyNutrition")
 const Profile = require("../models/Profile")
 const PregnancyData = require("../models/Pregnancy")
+const { openAI } = require("../helpers/OpenAI")
 
-class NutritionController {
-  static async getNutrition(req, res, next) {
-    try {
-      const user = req.user
-      const userProfile = await Profile.findById(user.profile)
-      const pregData = await PregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1])
-      const data = []
-      for (let i = 0; i < pregData.dailyNutrition.length; i++) {
-        const nutrition = await DailyNutrition.findById(pregData.dailyNutrition[i])
-        data.push(nutrition)
+class NutritionController
+{
+  static async getNutrition(req, res, next)
+  {
+    try
+    {
+      const user = req.user;
+      const userProfile = await Profile.findById(user.profile);
+      const pregData = await PregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1]);
+      const data = [];
+      for (let i = 0; i < pregData.dailyNutrition.length; i++)
+      {
+        const nutrition = await DailyNutrition.findById(pregData.dailyNutrition[i]);
+        data.push(nutrition);
       }
       res.status(200).json(data)
-    } catch (error) {
+    } catch (error)
+    {
       console.log(error)
       res.status(500).json({ message: error.message })
     }
   }
 
-  static async getNutritionByProfileId(req, res, next) {
-    try {
+  static async getNutritionByProfileId(req, res, next)
+  {
+    try
+    {
       const { ProfileId } = req.params
       const data = await Nutrition.find({ ProfileId })
 
       res.status(200).json(data)
-    } catch (error) {
+    } catch (error)
+    {
       console.log(error)
       res.status(500).json({ message: error.message })
     }
@@ -85,9 +94,11 @@ class NutritionController {
       const openai = await openAI(query)
       const details = JSON.parse(openai[0]?.message?.content)
 
-      for (let x in details) {
+      for (let x in details)
+      {
         console.log(x, details[x]?.value, AKG[x]?.value)
-        if (x !== "conclusion") {
+        if (x !== "conclusion")
+        {
           details[x].percentage = Math.ceil((details[x]?.value / AKG[x]?.value) * 100)
         }
       }
@@ -114,15 +125,21 @@ class NutritionController {
       })
     }
   }
-  static async deleteNutrition(req, res, next) {
-    try {
+  static async deleteNutrition(req, res, next)
+  {
+    try
+    {
       const { id } = req.params
-      const data = await DailyNutrition.findByIdAndDelete(id)
-
+      const pregData = await PregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1])
+      const index = pregData.dailyNutrition.indexOf(id)
+      pregData.dailyNutrition.splice(index, 1)
+      await DailyNutrition.findByIdAndDelete(id)
+      await pregData.save()
       res.status(200).json({
         message: "Nutrition deleted successfully",
       })
-    } catch (error) {
+    } catch (error)
+    {
       console.log(error)
       res.status(500).json({ message: error.message })
     }

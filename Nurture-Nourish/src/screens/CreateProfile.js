@@ -5,6 +5,7 @@ import { Picker } from "@react-native-picker/picker"
 import { useDispatch } from "react-redux"
 
 import DateTimePickerModal from "react-native-modal-datetime-picker"
+
 import { register } from "../stores/actionCreator"
 
 export default function CreateProfileScreen({ navigation, route }) {
@@ -25,7 +26,6 @@ export default function CreateProfileScreen({ navigation, route }) {
   }
 
   const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date)
     setDate(date)
     hideDatePicker()
   }
@@ -98,7 +98,7 @@ export default function CreateProfileScreen({ navigation, route }) {
           </View>
           <View style={{ marginTop: 30 }}>
             <Text style={{ fontFamily: "Poppins-Medium", fontSize: 18 }}>Birth Date</Text>
-            <TextInput
+            {/* <TextInput
               // value={birthDate}
               // onChangeText={(birthDate) => setBirthDate(birthDate)}
               placeholder={"Enter your birthDate"}
@@ -110,9 +110,14 @@ export default function CreateProfileScreen({ navigation, route }) {
                 borderBottomWidth: 1,
                 borderBottomColor: "rgb(203 213 225)",
               }}
-            />
+            /> */}
 
-            <Button title="Show Date Picker" onPress={showDatePicker} />
+            <Pressable
+              onPress={showDatePicker}
+              style={{ flex: 1, padding: 15, marginRight: 5, marginTop: 15, backgroundColor: "black", borderRadius: 12 }}
+            >
+              <Text style={{ textAlign: "center", fontFamily: "Poppins-SemiBold", color: "white", marginBottom: -3, fontSize: 16 }}>Select Date</Text>
+            </Pressable>
             <DateTimePickerModal isVisible={isDatePickerVisible} mode="date" onConfirm={handleConfirm} onCancel={hideDatePicker} />
           </View>
           <Pressable style={{ backgroundColor: "black", marginTop: 50, padding: 12, borderRadius: 15 }} onPress={() => handleSubmit()}>
