@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react"
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native"
 import { Camera } from "expo-camera"
+import axios from "axios"
+import * as FileSystem from "expo-file-system"
+import { Buffer } from "@craftzdog/react-native-buffer"
+
+import FormData from "form-data"
 
 export default function CameraComp({ navigation }) {
   const [hasCameraPermission, setHasCameraPermission] = useState(null)
@@ -19,6 +24,8 @@ export default function CameraComp({ navigation }) {
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync(null)
+      console.log("📌 data: ", data)
+
       navigation.navigate("Preview", { data })
     }
   }

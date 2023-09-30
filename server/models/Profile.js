@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const pregnancyDataSchema = require('./Pregnancy');
 
 const profileSchema = new mongoose.Schema({
     name: {
@@ -15,7 +14,16 @@ const profileSchema = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    pregnancyData: [pregnancyDataSchema]
+    pregnancyData: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Pregnancy'
+    }],
+    favoriteRecipes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Recipe'
+    }]
 })
 
-module.exports = profileSchema;
+const Profile = new mongoose.model('profile', profileSchema);
+
+module.exports = Profile;

@@ -1,51 +1,48 @@
-const Pregnancy = require('../models/Pregnancy');
-const User = require('../models/User');
-class PregnancyController 
-{
-    static async addPregnancy(req, res, next)
-    {
-        try
-        {
-            const user = req.user;
-            const { startDate } = req.body;
-            if (!startDate)
-            {6
-                throw { name: "BadRequest", message: "Invalid pregnancy data" }
-            }
-            user.profile.pregnancyData.push({
-                startDate: startDate,
-                childrenNumber: user.profile.pregnancyData.length || 12,
-                dailyNutrition: []
-            });
-            await user.save();
-            res.status(200).json({
-                message: "Pregnancy data added successfully"
-            });
-        } catch (error)
-        {
-            console.log(error)
-            res.status(400).json({
-                message: error.message
-            })
-        }
-    }
+const PregnancyData = require("../models/Pregnancy")
+const User = require("../models/User")
+const Profile = require("../models/Profile")
 
-    static async getPregnancy(req, res, next)
-    {
-        try
-        {
-            const user = req.user;
-            const pregnancyData = user.profile.pregnancyData;
-            res.status(200).json({
-                pregnancyData: pregnancyData
-            })
-        } catch (error)
-        {
-            res.status(500).json({
-                message: "Internal Server Error"
-            })
-        }
+class PregnancyController {
+  static async addPregnancy(req, res, next) {
+    try {
+      const user = req.user
+      const userProfile = await Profile.findById(user.profile)
+      const { startDate } = req.body
+      if (!startDate) {
+        throw { name: "BadRequest", message: "Invalid pregnancy data" }
+      }
+      const pregData = new PregnancyData({
+        startDate: startDate,
+        childrenNumber: userProfile.pregnancyData.length + 1 || 1,
+        dailyNutrition: [],
+      })
+      await pregData.save()
+      userProfile.pregnancyData.push(pregData._id)
+      await userProfile.save()
+      res.status(200).json({
+        message: "Pregnancy data added successfully",
+      })
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({
+        message: error.message,
+      })
     }
+  }
+
+  static async getPregnancy(req, res, next) {
+    try {
+      const user = req.user
+      const userProfile = await Profile.findById(user.profile)
+      const data = await PregnancyData.findById(userProfile.pregnancyData[userProfile.pregnancyData.length - 1])
+      res.status(200).json(data)
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({
+        message: "Internal Server Error",
+      })
+    }
+  }
 }
 
-module.exports = PregnancyController;
+module.exports = PregnancyController
